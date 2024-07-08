@@ -1,0 +1,96 @@
+.container{
+    flex: 5;
+    background-color: var(--bg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100vh;
+}
+
+.heroAnime{
+    width: 100%;
+    height: 50%;
+    background-image: url("../../../assets/naruto-landscape.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.heroAnimeHeader{
+    width: 100%;
+    /* display: flex;
+    justify-content: flex-end; */
+    padding: 20px;
+}
+
+.heroAnimeInfo{
+    /* position: absolute;
+    bottom: 0; */
+    padding: 20px;
+}
+
+.heroAnimeTitle{
+    color: var(--text);
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.heroAnimeLength{
+    color: var(--text);
+    font-weight: 500;
+}
+
+.heroAnimeDesc{
+    color: var(--text);
+    width: 40%;
+}
+
+.rating{
+    width: 50px;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--alt);
+    border-radius: 12px;
+}
+
+.rating p{
+    color: var(--text);
+    font-size: 14px;
+}
+
+
+
+.topRatedHeader h3{
+    color: var(--text);
+    font-weight: bold;
+}
+
+@media all and (max-width: 768px) {
+    /* .container{
+        height: fit-content;
+    } */
+    .heroAnime{
+        height: 50%;
+        /* display: none; */
+    }
+
+    .heroAnimeTitle{
+        font-size: 14px;
+    }
+
+    .heroAnimeDesc{
+        width: 70%;
+        font-size: 8px;
+    }
+
+    .rating p{
+        font-size: 8px;
+    }
+}

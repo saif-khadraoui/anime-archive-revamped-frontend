@@ -1,0 +1,55 @@
+.reviewItem{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--text);
+}
+
+.reviewItemTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.reviewItemLeft{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.userDetails .date{
+    color: var(--textAlt);
+    font-size: 12px;
+}
+
+.reviewItemRight{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    word-wrap: break-word;
+}
+
+.reviewItemRight .reviewContent{
+    word-break: break-all;
+}
+
+.reviewVote{
+    display: flex;
+    gap: 20px;
+}
+
+.vote{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* cursor: pointer; */
+}
+
+.reviewRating{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}

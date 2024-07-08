@@ -1,0 +1,16 @@
+:root{
+    --bg: black;
+    --bgSoft: #1C1C1C;
+    --text: white;
+    --textSoft: #4F4F4F;
+    --textAlt: #ffe6e1;
+    --alt: #b90000;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+     box-sizing: border-box;
+}
