@@ -1,0 +1,314 @@
+.container{
+    flex: 4;
+    background-color: var(--bg);
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    /* position: relative; */
+}
+
+.anime{
+    width: 100%;
+    /* height: 70% */
+    /* height: 100%; */
+}
+
+.header h3{
+    color: var(--text);
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.header p{
+    color: var(--text);
+}
+
+
+.animeInformation{
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.animeInformationRight{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* margin-bottom: 150px; */
+}
+
+.animeInformationRightWrapper{
+    display: flex;
+    gap: 20px;
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 30%;
+}
+
+/* .left .addAnime button{
+    padding: 5px;
+    background-color: var(--alt);
+    color: var(--text);
+    border: none;
+    outline: none;
+    cursor: pointer;
+} */
+
+.addAnime{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.addAnime select{
+    padding: 5px;
+    outline: none;
+}
+
+.addAnime button{
+    padding: 5px;
+}
+
+.stats{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stats .score{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border-right: 1px solid white;
+    padding-right: 10px;
+}
+
+.score span{
+    background-color: var(--bgSoft);
+    color: var(--textAlt);
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    padding: 3px;
+}
+
+.score h4{
+    color: var(--text);
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.listAmount{
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+.listAmount h3{
+    color: var(--text);
+}
+
+.listAmount p{
+    color: var(--alt);
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.synopsis p{
+    color: var(--text);
+}
+
+.loader{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reviews{
+    width: 100%;
+    /* height: 20%; */
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.reviewsWrapper{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll
+}
+
+.reviewsHeader{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.averageRating{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.reviewsHeader h4{
+    color: var(--text);
+}
+
+.reviewsHeader h3{
+    color: var(--text);
+}
+
+.reviewsResult{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reviewItem{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--text);
+}
+
+.reviewItemTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.reviewItemLeft{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.userDetails .date{
+    color: var(--textAlt);
+    font-size: 12px;
+}
+
+.reviewItemRight{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    word-wrap: break-word;
+}
+
+.reviewItemRight .reviewContent{
+    word-break: break-all;
+}
+
+.reviewVote{
+    display: flex;
+    gap: 20px;
+}
+
+.vote{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* cursor: pointer; */
+}
+
+.reviewRating{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.recommendation{
+    display: flex;
+    gap: 10px;
+}
+
+
+
+button{
+    padding: 5px;
+    background-color: var(--alt);
+    color: var(--text);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.recommendations{
+    /* height: 200px; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recommendationsHeader h3{
+    color: var(--text);
+}
+
+.recommendationsResult{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.recommendationWrapper{
+    max-width: 150px;
+    max-height: 200px;
+    cursor: pointer;
+}
+
+.recommendationWrapper img{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+
+.recommendationWrapper h5{
+    color: var(--text);
+}
+
+@media screen and (max-width: 768px) {
+    .container{
+        height: fit-content;
+    }
+    .animeInformation{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .animeInformation img{
+        max-width: 250px;
+        max-height: 300px;
+    }
+
+    .animeInformationRightWrapper{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reviewsWrapper{
+        width: 100%;
+    }
+}
