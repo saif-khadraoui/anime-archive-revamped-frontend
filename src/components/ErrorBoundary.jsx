@@ -27,7 +27,7 @@ class ErrorBoundary extends React.Component {
           textAlign: 'center'
         }}>
           <h1>Something went wrong</h1>
-          <p>Please refresh the page or try again later.</p>
+          <p>Please refresh now the page or try again later.</p>
           <button 
             onClick={() => window.location.reload()}
             style={{
