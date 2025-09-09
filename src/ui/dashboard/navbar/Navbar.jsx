@@ -8,7 +8,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 function Navbar() {
   const navigate = useNavigate()
   // const { userId } = useContext(UserContext)
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId") || null
   localStorage.setItem("mobile", "false")
 
   // useEffect(() => {
@@ -34,7 +34,7 @@ function Navbar() {
       <GiHamburgerMenu style={{ color: "white" }} className={styles.hamburger} onClick={openMobile}/>
       </div>
       <div className={styles.right}>
-        {userId.length > 0 ? (
+        {userId?.length > 0 ? (
           <CgProfile style={{ color: "white", height: "26px", width: "26px", cursor: "pointer" }} onClick={routeProfile}/>
           // <p>logged in</p>
         ) : (
