@@ -6,9 +6,10 @@ import Axios from "axios"
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import { FaStar } from "react-icons/fa6";
+import { FaStar, FaPlay, FaBookmark, FaUsers, FaCalendarAlt } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { MdAdd, MdCheck } from "react-icons/md";
 import AddReviewModal from '../../../ui/dashboard/anime/addReviewModal/AddReviewModal'
 import Review from '../../../ui/dashboard/anime/review/Review'
 
@@ -127,7 +128,7 @@ function Anime() {
 
         fetchReviews()
         
-    }, [modal, id, animeAdded])
+    }, [modal, id, animeAdded, reviews])
 
     useEffect(() => {
         const checkAdded = async () => {
@@ -186,174 +187,172 @@ function Anime() {
     <div className={styles.container}>
         <Navbar />
         {animeData ? (
-            <div className={styles.anime}>
-              <div className={styles.header}>
-                  <h3>{animeData.title}</h3>
-                  {/* <div className={styles.recommendation}>
-                    <p>Anime archive AI thinks you'd like</p>
-                    {animeRecommendation ? (
-                        <p>{animeRecommendation}</p>
-                    ) : <SyncLoader color="red" />}
-                  </div> */}
-                  
-              </div>
-              <div className={styles.animeInformation}>
-                  <img src={animeData.images?.jpg?.image_url} alt="" />
-                  <div className={styles.animeInformationRight}>
-                      <div className={styles.animeInformationRightWrapper}>
-                          <div className={styles.left}>
-                              <div className={styles.stats}>
-                                  <div className={styles.score}>
-                                      <span>Score</span>
-                                      <h4>9.23</h4>
-                                  </div>
-                                  <div className={styles.listAmount}>
-                                      <h3>Added to list</h3>
-                                      <p>{amount}</p>
-                                  </div>
-                              </div>
-                              {userId && (
-                                <>
-                                    {/* {animeAdded ? (
-                                        <button>Added</button>
-                                    ) : (
-                                        <div className={styles.addAnime}>
-                                            <select>
-                                                {lists.map((list, idx) => {
-                                                    return (
-                                                        <option>{list.ListName}</option>
-                                                    )
-                                                })}
-                                            </select>
-                                            <button type="button" onClick={addToList}>Add to list</button>
-                                        </div>
-                                    )} */}
+            <>
+                {/* Hero Section */}
+                <div className={styles.hero}>
+                    <div className={styles.heroBackground}>
+                        <img src={animeData.images?.jpg?.large_image_url} alt={animeData.title} />
+                        <div className={styles.heroOverlay}></div>
+                    </div>
+                    <div className={styles.heroContent}>
+                        <div className={styles.animePoster}>
+                            <img src={animeData.images?.jpg?.image_url} alt={animeData.title} />
+                        </div>
+                        <div className={styles.animeInfo}>
+                            <div className={styles.animeHeader}>
+                                <h1>{animeData.title}</h1>
+                                <div className={styles.animeMeta}>
+                                    <span className={styles.type}>{animeData.type}</span>
+                                    {animeData.year && <span className={styles.year}>{animeData.year}</span>}
+                                    {animeData.episodes && <span className={styles.episodes}>{animeData.episodes} episodes</span>}
+                                </div>
+                            </div>
+                            
+                            <div className={styles.stats}>
+                                <div className={styles.statItem}>
+                                    <div className={styles.statValue}>9.23</div>
+                                    <div className={styles.statLabel}>Score</div>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <div className={styles.statValue}>{amount}</div>
+                                    <div className={styles.statLabel}>In Lists</div>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <div className={styles.statValue}>{reviews.length}</div>
+                                    <div className={styles.statLabel}>Reviews</div>
+                                </div>
+                            </div>
+
+                            {userId && (
+                                <div className={styles.addToList}>
                                     {lists.length > 0 ? (
-                                        <div className={styles.addAnime}>
-                                            <select onChange={updateSelectedList}>
+                                        <div className={styles.listSelector}>
+                                            <select onChange={updateSelectedList} className={styles.listSelect}>
                                                 <option value={undefined}>Select a list</option>
                                                 {lists.map((list, idx) => {
                                                     return(
-                                                        <option value={list._id}>{list.ListName}</option>
+                                                        <option key={list._id} value={list._id}>{list.ListName}</option>
                                                     )
                                                 })}
                                             </select>
                                             {showButton && (
-                                                <>
+                                                <button 
+                                                    className={`${styles.addButton} ${animeAdded ? styles.added : ''}`}
+                                                    onClick={addToList}
+                                                    disabled={animeAdded}
+                                                >
                                                     {animeAdded ? (
-                                                    <button>Added</button>
+                                                        <>
+                                                            <MdCheck size={16} />
+                                                            Added
+                                                        </>
                                                     ) : (
-                                                        <button type="button" onClick={addToList}>Add to list</button>
+                                                        <>
+                                                            <MdAdd size={16} />
+                                                            Add to List
+                                                        </>
                                                     )}
-                                                </>
+                                                </button>
                                             )}
                                         </div>
                                     ) : (
-                                        <p style={{ color: "white" }}>Create a list to add animes</p>
+                                        <p className={styles.noListsMessage}>Create a list to add anime</p>
                                     )}
-                                </>
-
-                              )}
-                          </div>
-                          <div className={styles.trailer}>
-                              <YouTube videoId={animeData.trailer?.youtube_id} opts={opts}/>
-                          </div>
-                      </div>
-                      <div className={styles.synopsis}>
-                          <p>{animeData.synopsis}</p>
-                      </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                {/* Content Sections */}
+                <div className={styles.content}>
+                    <div className={styles.mainContent}>
+                        {/* Synopsis */}
+                        <div className={styles.synopsis}>
+                            <h3>Synopsis</h3>
+                            <p>{animeData.synopsis}</p>
+                        </div>
+
+                        {/* Trailer */}
+                        {animeData.trailer?.youtube_id && (
+                            <div className={styles.trailer}>
+                                <h3>Trailer</h3>
+                                <div className={styles.trailerContainer}>
+                                    <YouTube videoId={animeData.trailer?.youtube_id} opts={opts}/>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Reviews Section */}
+                    <div className={styles.reviews}>
+                        <div className={styles.reviewsHeader}>
+                            <div className={styles.reviewsTitle}>
+                                <h3>Reviews</h3>
+                                <div className={styles.averageRating}>
+                                    <span className={styles.ratingValue}>{reviews.length > 0 ? averageStars.toFixed(1) : '0.0'}</span>
+                                    <FaStar className={styles.starIcon} />
+                                    <span className={styles.ratingCount}>({reviews.length} reviews)</span>
+                                </div>
+                            </div>
+                            <button className={styles.writeReviewButton} onClick={() => setModal(true)}>
+                                <FaStar size={16} />
+                                Write Review
+                            </button>
+                        </div>
+                        
+                        <div className={styles.reviewsList}>
+                            {reviews.length > 0 ? (
+                                reviews.map((review, idx) => (
+                                    <Review key={review._id} review={review}/>
+                                ))
+                            ) : (
+                                <div className={styles.noReviews}>
+                                    <FaStar size={48} />
+                                    <h4>No reviews yet</h4>
+                                    <p>Be the first to share your thoughts about this anime</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Recommendations */}
+                    <div className={styles.recommendations}>
+                        <h3>Similar {type === 'anime' ? 'Anime' : 'Manga'}</h3>
+                        <div className={styles.recommendationsGrid}>
+                            {recommendations?.length > 0 ? (
+                                recommendations.map((recommendation, idx) => (
+                                    <div 
+                                        key={recommendation.entry?.mal_id}
+                                        className={styles.recommendationCard} 
+                                        onClick={() => navigate(`/dashboard/${type}/${recommendation.entry?.mal_id}`)}
+                                    >
+                                        <div className={styles.recommendationImage}>
+                                            <img src={recommendation.entry?.images?.jpg?.image_url} alt={recommendation.entry?.title} />
+                                            <div className={styles.recommendationOverlay}>
+                                                <FaPlay size={24} />
+                                            </div>
+                                        </div>
+                                        <h5>{recommendation.entry?.title}</h5>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className={styles.noRecommendations}>
+                                    <FaBookmark size={48} />
+                                    <p>No recommendations available</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </>
         ) : (
             <div className={styles.loader}>
-                <SyncLoader color="red" />
+                <SyncLoader color="#667eea" />
             </div>
         )}
-        <h3 style={{ color: "white" }}>Reviews</h3>
-        <div className={styles.reviews}>
-            <div className={styles.reviewsWrapper}>
-                <div className={styles.reviewsHeader}>
-                    <div className={styles.averageRating}>
-                        <h4>{reviews.length > 0 ? averageStars : 0}</h4>
-                        <FaStar style={{ color: "gold" }}/>
-                    </div>
-                    <button onClick={() => setModal(true)}>Write</button>
-                </div>
-                <div className={styles.reviewsResult}>
-                    {reviews.length > 0 ? (
-                        <>
-                        {reviews.map((review, idx) => {
-                            return (
-                            // <div className={styles.reviewItem}>
-                            //     <div className={styles.reviewItemTop}>
-                            //         <div className={styles.reviewItemLeft}>
-                            //             <CgProfile style={{ width: "30px", height: "30px" }}/>
-                            //             <div className={styles.userDetails}>
-                            //                 <p className={styles.username}>{review.Guest == true ? "Anonymous" : review.Username}</p>
-                            //                 <p className={styles.date}>{review.createdAt?.slice(0,10)}</p>
-                            //             </div>
-                            //         </div>
-                            //         <div className={styles.reviewItemRight}>
-                            //             <div className={styles.reviewRating}>
-                            //                 <p>{review.Rating}</p>
-                            //                 <FaStar style={{ color: "gold" }}/>
-                            //             </div>
-                            //         </div>
-                            //     </div>
-                                    
-                            //         <div className={styles.reviewContent}>
-                            //             <p>{review.Content}</p>
-                            //         </div>
-                            //         <div className={styles.reviewVote}>
-                            //             <div className={styles.vote}>
-                            //                 <p>5</p>
-                            //                 <FaArrowAltCircleUp style={{ cursor: "pointer" }} onClick={(() => attemptVote("up", review._id))}/>
-                            //             </div>
-                            //             <div className={styles.vote}>
-                            //                 <p>5</p>
-                            //                 <FaArrowAltCircleDown style={{ cursor: "pointer" }} onClick={(() => attemptVote("down", review._id))}/>
-                            //             </div>
-                            //         </div>
-
-                            // </div>
-                            <Review review={review}/>
-                            )
-                            })}
-                        </>
-                    ) : (
-                        <>
-                            <p style={{ color: "white" }}>Be the first to add to review</p>
-                        </>
-                    )}
-                </div>
-            </div>
-        </div>
-        <div className={styles.recommendations}>
-                <div className={styles.recommendationsHeader}>
-                    <h3>Other recommendations</h3>
-                </div>
-                <div className={styles.recommendationsResult}>
-                    {recommendations?.length > 0 ? (
-                        <>
-                            {recommendations.map((recommendation, idx) => {
-                                return (
-                                    <div className={styles.recommendationWrapper} onClick={(() => {
-                                        navigate(`/dashboard/${type}/${recommendation.entry?.mal_id}`)
-                                    })}>
-                                        <img src={recommendation.entry?.images?.jpg?.image_url} alt="" />
-                                        <h5>{recommendation.entry.title}</h5>
-                                    </div>
-                                )
-                            })}
-                        </>
-                    ) : (
-                        <p style={{ color: "white" }}>There are no recommendations for this {type} right now</p>
-                    )}
-                </div>
-            </div>
+        
         {modal && <AddReviewModal setModal={setModal} animeId={id}/>}
-      
     </div>
   )
 }

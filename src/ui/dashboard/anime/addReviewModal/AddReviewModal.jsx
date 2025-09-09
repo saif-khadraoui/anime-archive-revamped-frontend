@@ -13,6 +13,7 @@ function AddReviewModal({ setModal, animeId }) {
     const [content, setContent] = useState("")
 
     const addReview = async () => {
+        setModal(false)
         await Axios.post("https://anime-archive-revamped.onrender.com/api/addReview", {
             guest: guest,
             animeId: animeId,
@@ -30,33 +31,58 @@ function AddReviewModal({ setModal, animeId }) {
     }
 
   return (
-    <div className={styles.container}>
-        <div className={styles.header}>
-            <h3>Add review</h3>
-            <MdClose onClick={() => setModal(false)} style={{ color: "white", cursor: "pointer" }}/>
-        </div>
-        <div className={styles.anonymous}>
-            <p>Anonymous</p>
-            {userId ? (
-                <input type="checkbox" defaultChecked={guest} onChange={((e) => setGuest(e.target.checked))}/>
-            ) : (
-                <input type="checkbox" checked disabled/>
-            )}
-        </div>
-        <div className={styles.rating}>
-            <p>Rating</p>
-            <input type="range" min={0} max={10} value={rating} onChange={((e) => setRating(e.target.value))}/>
-            <div className={styles.starRating}>
-                <p>{rating}</p>
-                <FaStar style={{ color: "gold" }}/>
+    <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && setModal(false)}>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h3>Add Review</h3>
+                <button className={styles.closeButton} onClick={() => setModal(false)}>
+                    <MdClose size={20} />
+                </button>
             </div>
-        </div>
-        <div className={styles.content}>
-            <p>Review</p>
-            <textarea placeholder='What do you think about this anime?' rows={10} value={content} onChange={((e) => setContent(e.target.value))}/>
-        </div>
-        <div className={styles.button}>
-            <button onClick={addReview}>Add review</button>
+            <div className={styles.formContent}>
+                <div className={styles.anonymous}>
+                    <p>Post as Anonymous</p>
+                    <div className={styles.checkboxContainer}>
+                        {userId ? (
+                            <input 
+                                type="checkbox" 
+                                checked={guest} 
+                                onChange={(e) => setGuest(e.target.checked)}
+                            />
+                        ) : (
+                            <input type="checkbox" checked disabled />
+                        )}
+                    </div>
+                </div>
+                <div className={styles.rating}>
+                    <p>Rating</p>
+                    <div className={styles.ratingInput}>
+                        <input 
+                            type="range" 
+                            min={0} 
+                            max={10} 
+                            value={rating} 
+                            onChange={(e) => setRating(e.target.value)}
+                            className={styles.ratingSlider}
+                        />
+                        <div className={styles.starRating}>
+                            <p>{rating}</p>
+                            <FaStar style={{ color: "#ffd700" }} />
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.content}>
+                    <p>Your Review</p>
+                    <textarea 
+                        placeholder='Share your thoughts about this anime...' 
+                        value={content} 
+                        onChange={(e) => setContent(e.target.value)}
+                    />
+                </div>
+                <div className={styles.button}>
+                    <button onClick={addReview}>Submit Review</button>
+                </div>
+            </div>
         </div>
     </div>
   )

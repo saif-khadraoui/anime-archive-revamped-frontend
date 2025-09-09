@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from "./animeCard.module.css"
 import Axios from "axios"
-import { MdClose } from "react-icons/md";
+import { MdDelete, MdPlayArrow } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 
 function AnimeCard({ anime, number }) {
@@ -43,20 +43,33 @@ function AnimeCard({ anime, number }) {
 
   return (
     <div className={styles.container}>
-        <div className={styles.information}>
-            <div className={styles.number}>
-                <p style={{ color: "white" }}>{number+1}</p>
+        <div className={styles.cardContent}>
+            <div className={styles.imageContainer} onClick={routeAnime}>
+                <img src={anime.Img} alt={anime.Title} />
+                <div className={styles.imageOverlay}>
+                    <MdPlayArrow size={32} />
+                </div>
+                <div className={styles.numberBadge}>
+                    {number + 1}
+                </div>
             </div>
-            <div className={styles.image} onClick={routeAnime}>
-                <img src={anime.Img} alt="" />
-            </div>
-            <div className={styles.content}>
-                <h4>{anime.Type}</h4>
-                <h3>{anime.Title}</h3>
+            <div className={styles.info}>
+                <div className={styles.typeBadge}>
+                    {anime.Type}
+                </div>
+                <h3 className={styles.title} onClick={routeAnime}>
+                    {anime.Title}
+                </h3>
             </div>
         </div>
         <div className={styles.actions}>
-            <MdClose style={{ color: "white", cursor: "pointer" }} onClick={deleteFromList}/>
+            <button 
+                className={styles.deleteButton}
+                onClick={deleteFromList}
+                title="Remove from list"
+            >
+                <MdDelete size={18} />
+            </button>
         </div>
     </div>
   )

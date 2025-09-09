@@ -1,36 +1,402 @@
-.container{
+/* Container */
+.container {
     flex: 4;
-    background-color: var(--bg);
-    padding: 20px;
-    height: 100%;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.song{
-    width: 100%;
+/* Header Section */
+.header {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 8px;
 }
 
-
-.song .buttons{
+.backButton {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.song button{
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    align-self: flex-start;
 }
 
-.songComments{
-    color: white;
+.backButton:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #ffffff;
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.songIcon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(102, 126, 234, 0.8);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.songInfo h1 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.songInfo p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Video Section */
+.videoSection {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+}
+
+.loadingContainer p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.videoContainer {
+    width: 100%;
+    /* aspect-ratio: 16/9; */
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.errorIcon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: rgba(102, 126, 234, 0.5);
+}
+
+.errorState h3 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+.errorState p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.4;
+}
+
+/* Voting Section */
+.votingSection {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.votingHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.votingHeader h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.votingHeader p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.votingButtons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.voteButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.voteButton:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #ffffff;
+}
+
+.voteButtonActive {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-color: #667eea !important;
+    color: white !important;
+}
+
+/* Comments Section */
+.commentsSection {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.commentsHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.commentsHeader h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.commentsHeader p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.commentsPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.commentsIcon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: rgba(102, 126, 234, 0.5);
+}
+
+.commentsPlaceholder p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .songInfo h1 {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .header {
+        gap: 12px;
+    }
+    
+    .headerContent {
+        gap: 12px;
+    }
+    
+    .songIcon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .songInfo h1 {
+        font-size: 20px;
+    }
+    
+    .songInfo p {
+        font-size: 13px;
+    }
+    
+    .videoSection,
+    .votingSection,
+    .commentsSection {
+        padding: 16px;
+    }
+    
+    .votingButtons {
+        gap: 12px;
+    }
+    
+    .voteButton {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .commentsPlaceholder {
+        padding: 30px 20px;
+    }
+    
+    .commentsIcon {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 12px;
+        gap: 16px;
+    }
+    
+    .backButton {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    
+    .headerContent {
+        gap: 10px;
+    }
+    
+    .songIcon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .songInfo h1 {
+        font-size: 18px;
+    }
+    
+    .songInfo p {
+        font-size: 12px;
+    }
+    
+    .videoSection,
+    .votingSection,
+    .commentsSection {
+        padding: 12px;
+    }
+    
+    .votingButtons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .voteButton {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .commentsPlaceholder {
+        padding: 20px 20px;
+    }
+    
+    .commentsIcon {
+        width: 50px;
+        height: 50px;
+    }
 }

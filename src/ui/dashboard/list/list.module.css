@@ -1,58 +1,339 @@
-.container{
+/* Container */
+.container {
     flex: 4;
     width: 100%;
     height: 100%;
-    background-color: var(--bg);
-    padding: 20px;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    padding: 32px;
+    overflow-y: auto;
 }
 
-.header{
+/* Header Section */
+.header {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.header button{
-    width: 80px;
-}
-
-.header h3{
-    color: var(--text);
-}
-
-.list{
-    margin-top: 20px;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    overflow: auto;
-}
-
-.lists{
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.listCard{
-    display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 200px;
-    height: 20px;
-    padding: 20px;
-    color: var(--text);
-    border: 1px solid white;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.listCard h4{
+.headerContent h1 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.headerContent p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Create Button */
+.createButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
+.createButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.createButton:active {
+    transform: translateY(0);
+}
+
+/* Lists Container */
+.listsContainer {
+    flex: 1;
+    width: 100%;
+}
+
+/* Lists Grid */
+.lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* List Card */
+.listCard {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.listCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.listCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.listCard:hover::before {
+    opacity: 1;
+}
+
+/* Card Content */
+.cardContent {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.listIcon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.listInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.listInfo h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listInfo h3:hover {
+    color: #667eea;
+}
+
+.listInfo p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Card Actions */
+.cardActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.deleteButton {
+    background: rgba(255, 59, 48, 0.1);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ff3b30;
+    transition: all 0.2s ease;
+}
+
+.deleteButton:hover {
+    background: rgba(255, 59, 48, 0.2);
+    border-color: rgba(255, 59, 48, 0.4);
+    transform: scale(1.05);
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.emptyIcon {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: rgba(102, 126, 234, 0.5);
+}
+
+.emptyState h3 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.emptyState p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    margin: 0 0 32px 0;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.createFirstButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.createFirstButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-    width: 10px;
-    background-color: var(--bgSoft);
-  }
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+    }
+    
+    .headerContent h1 {
+        font-size: 28px;
+    }
+    
+    .lists {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .listCard {
+        padding: 20px;
+    }
+    
+    .emptyState {
+        padding: 60px 20px;
+    }
+    
+    .emptyIcon {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .emptyState h3 {
+        font-size: 20px;
+    }
+    
+    .emptyState p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .headerContent h1 {
+        font-size: 24px;
+    }
+    
+    .createButton {
+        padding: 14px 20px;
+        font-size: 14px;
+    }
+    
+    .listCard {
+        padding: 16px;
+    }
+    
+    .cardContent {
+        gap: 12px;
+    }
+    
+    .listIcon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .listInfo h3 {
+        font-size: 16px;
+    }
+}

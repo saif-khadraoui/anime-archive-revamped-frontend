@@ -5,7 +5,7 @@ import Axios from "axios"
 import ReactPlayer from 'react-player'
 import SyncLoader from "react-spinners/SyncLoader";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { MdOutlineSearch } from "react-icons/md";
+import { MdOutlineSearch, MdPlayArrow, MdMusicNote } from "react-icons/md";
 
 function SearchSong() {
 
@@ -94,56 +94,97 @@ function SearchSong() {
 
   return (
     <div className={styles.container}>
-
-        {/* <ReactPlayer url='https://v.animethemes.moe/Naruto-OP1.webm' playing={true}/> */}
-
-        <Navbar />
+      <Navbar />
       <div className={styles.search}>
-        <div className={styles.searchContainer}>
-          <div className={styles.filterLetter}>
-            {letters.map((letter) => {
-              return <p onClick={() => attemptSearch(letter)}>{letter}</p>
-            })}
-          </div>
-          <div className={styles.searchInput}>
-            <input type="text" placeholder='search anime' value={search} onChange={((e) => setSearch(e.target.value))} onKeyDown={enterSearch}/>
-            <MdOutlineSearch style={{ color: "black", width: "25px", height: "25px", flex: 1, cursor: "pointer" }} onClick={() => attemptSearch(search)}/>
+        {/* Header Section */}
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <h1>Search Anime Songs</h1>
+            <p>Find anime to discover their openings and endings</p>
           </div>
         </div>
-        <div className={styles.result}>
-          {loading ? (
-            <>
-            {animes.length > 0 ? (
-              <>
-                {animes?.map((anime, idx) => {
-                  return (
-                    <div className={styles.animeItem} onClick={() => routeAnimeSongs(anime.mal_id)}>
-                      <img src={anime.images?.jpg?.image_url} alt=""/>
-                      <p>{anime.title}</p>
-                    </div>
-                  )
-                  })}
-                  </>
-                ) : (
-                  <SyncLoader color="red" />
-                  
-              )}
-            
-            </>
-          ) : (
-            <>
-            {/* {pathname == animePath ? (
-              <p style={{ color: "white" }}>Search an anime up</p>
-            ) : (
-              <p style={{ color: "white" }}>Search a manga up</p>
-            )} */}
-            {pathname == animePath && <p style={{ color: "white" }}>Search an anime up</p>}
-            {pathname == mangaPath && <p style={{ color: "white" }}>Search a manga up</p>}
-            {pathname == webtoonPath && <p style={{ color: "white" }}>Search a webtoon up</p>}
-            {pathname == songPath && <p style={{ color: "white" }}>Search an anime up to see its openings and endings</p>}
-            </>
-          )}
 
+        {/* Search Section */}
+        <div className={styles.searchSection}>
+          <div className={styles.searchContainer}>
+            <div className={styles.searchInput}>
+              <input 
+                type="text" 
+                placeholder="Search anime..."
+                value={search} 
+                onChange={(e) => setSearch(e.target.value)} 
+                onKeyDown={enterSearch}
+              />
+              <button className={styles.searchButton} onClick={() => attemptSearch(search)}>
+                <MdOutlineSearch size={20} />
+              </button>
+            </div>
+            
+            <div className={styles.filterLetter}>
+              <span className={styles.filterLabel}>Quick Search:</span>
+              <div className={styles.letterGrid}>
+                {letters.map((letter, index) => {
+                  return (
+                    <button 
+                      key={index}
+                      className={styles.letterButton} 
+                      onClick={() => attemptSearch(letter)}
+                    >
+                      {letter}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Section */}
+        <div className={styles.resultsSection}>
+          {loading ? (
+            <div className={styles.loadingContainer}>
+              {animes.length > 0 ? (
+                <div className={styles.resultsGrid}>
+                  {animes?.map((anime, idx) => {
+                    return (
+                      <div 
+                        key={anime.mal_id}
+                        className={styles.resultCard} 
+                        onClick={() => routeAnimeSongs(anime.mal_id)}
+                      >
+                        <div className={styles.cardImage}>
+                          <img src={anime.images?.jpg?.image_url} alt={anime.title}/>
+                          <div className={styles.imageOverlay}>
+                            <MdMusicNote size={32} />
+                          </div>
+                        </div>
+                        <div className={styles.cardContent}>
+                          <h3>{anime.title}</h3>
+                          <div className={styles.cardMeta}>
+                            <span className={styles.type}>{anime.type}</span>
+                            {anime.year && <span className={styles.year}>{anime.year}</span>}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className={styles.loadingSpinner}>
+                  <SyncLoader color="#667eea" />
+                  <p>Searching...</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyIcon}>
+                <MdMusicNote size={64} />
+              </div>
+              <h3>Start Your Search</h3>
+              <p>Search for an anime to discover its openings and endings</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

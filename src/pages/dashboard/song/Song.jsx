@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react'
 import styles from "../../../ui/dashboard/song/song.module.css"
 import Navbar from '../../../ui/dashboard/navbar/Navbar'
 import Axios from "axios"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import ReactPlayer from 'react-player'
-import { AiOutlineLike } from "react-icons/ai";
-import { AiOutlineDislike } from "react-icons/ai";
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+import { MdArrowBack, MdMusicNote, MdThumbUp, MdThumbDown } from "react-icons/md";
+import SyncLoader from "react-spinners/SyncLoader";
 
 function Song() {
     const {id, basename} = useParams()
+    const navigate = useNavigate()
     const [link, setLink] = useState()
+    const [loading, setLoading] = useState(true)
     const userId = localStorage.getItem("userId")
 
     const [update, setUpdate] = useState(false)
@@ -103,13 +106,20 @@ function Song() {
 
     useEffect(() => {
         const fetchSong = async () => {
-            await Axios.get(`https://api.animethemes.moe/video/${basename}`).then((response) => {
-                console.log(response)
-                setLink(response.data.video.link)
-            })
+            try {
+                setLoading(true)
+                await Axios.get(`https://api.animethemes.moe/video/${basename}`).then((response) => {
+                    console.log(response)
+                    setLink(response.data.video.link)
+                })
+            } catch (error) {
+                console.error("Error fetching song:", error)
+            } finally {
+                setLoading(false)
+            }
         }
         fetchSong()
-    }, [])
+    }, [basename])
 
     // const addVote = async (type) => {
     //     await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
@@ -124,15 +134,97 @@ function Song() {
   return (
     <div className={styles.container}>
         <Navbar />
-        <div className={styles.song}>
-            <ReactPlayer url={link} playing={false} controls={true} width="75%"/>
-            <div className={styles.buttons}>
-                <button onClick={(() => attemptVote("up"))}><AiOutlineLike style={{ width: "18px", height: "16px", color: upVoteIsTrue ? "black" : "white" }}/>{upVotes}</button>
-                <button onClick={(() => attemptVote("down"))}><AiOutlineDislike style={{ width: "18px", height: "16px", color: downVoteIsTrue ? "black" : "white" }}/>{downVotes}</button>
+        
+        {/* Header Section */}
+        <div className={styles.header}>
+            <button className={styles.backButton} onClick={() => navigate(`/dashboard/${id}/songs`)}>
+                <MdArrowBack size={20} />
+                Back to Songs
+            </button>
+            <div className={styles.headerContent}>
+                <div className={styles.songIcon}>
+                    <MdMusicNote size={32} />
+                </div>
+                <div className={styles.songInfo}>
+                    <h1>Anime Song</h1>
+                    <p>Opening / Ending Theme</p>
+                </div>
             </div>
         </div>
-        <div className={styles.songComments}>
-            <h4>Comments</h4>
+
+        {/* Video Section */}
+        <div className={styles.videoSection}>
+            {loading ? (
+                <div className={styles.loadingContainer}>
+                    <SyncLoader color="#667eea" />
+                    <p>Loading video...</p>
+                </div>
+            ) : link ? (
+                <div className={styles.videoContainer}>
+                    <ReactPlayer 
+                        url={link} 
+                        playing={false} 
+                        controls={true} 
+                        width="100%" 
+                        height="10%"
+                        config={{
+                            file: {
+                                attributes: {
+                                    style: { borderRadius: '12px' }
+                                }
+                            }
+                        }}
+                    />
+                </div>
+            ) : (
+                <div className={styles.errorState}>
+                    <div className={styles.errorIcon}>
+                        <MdMusicNote size={64} />
+                    </div>
+                    <h3>Video Not Available</h3>
+                    <p>This song video could not be loaded</p>
+                </div>
+            )}
+        </div>
+
+        {/* Voting Section */}
+        {userId && (
+            <div className={styles.votingSection}>
+                <div className={styles.votingHeader}>
+                    <h3>Rate this song</h3>
+                    <p>Help others discover great music</p>
+                </div>
+                <div className={styles.votingButtons}>
+                    <button 
+                        className={`${styles.voteButton} ${upVoteIsTrue ? styles.voteButtonActive : ''}`}
+                        onClick={() => attemptVote("up")}
+                    >
+                        <MdThumbUp size={20} />
+                        <span>{upVotes || 0}</span>
+                    </button>
+                    <button 
+                        className={`${styles.voteButton} ${downVoteIsTrue ? styles.voteButtonActive : ''}`}
+                        onClick={() => attemptVote("down")}
+                    >
+                        <MdThumbDown size={20} />
+                        <span>{downVotes || 0}</span>
+                    </button>
+                </div>
+            </div>
+        )}
+
+        {/* Comments Section */}
+        <div className={styles.commentsSection}>
+            <div className={styles.commentsHeader}>
+                <h3>Comments</h3>
+                <p>Share your thoughts about this song</p>
+            </div>
+            <div className={styles.commentsPlaceholder}>
+                <div className={styles.commentsIcon}>
+                    <MdMusicNote size={48} />
+                </div>
+                <p>Comments feature coming soon</p>
+            </div>
         </div>
     </div>
   )
