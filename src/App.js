@@ -14,13 +14,14 @@ import SearchSong from "./pages/dashboard/searchSong/SearchSong";
 import Songs from "./pages/dashboard/songs/Songs";
 import Song from "./pages/dashboard/song/Song";
 import TopSongs from "./pages/dashboard/topSongs/TopSongs";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
 
-  const userId = localStorage.getItem("userId")
-  const username = localStorage.getItem("username")
-  const email = localStorage.getItem("email")
-  const profilePic = localStorage.getItem("profilePic")
+  const userId = localStorage.getItem("userId") || null
+  const username = localStorage.getItem("username") || null
+  const email = localStorage.getItem("email") || null
+  const profilePic = localStorage.getItem("profilePic") || null
 
   const setUserId = (value) => {
     localStorage.setItem("userId", value)
@@ -39,32 +40,32 @@ function App() {
   }
 
   return (
-    <>
+    <ErrorBoundary>
       <UserConext.Provider value={{ userId, username, email, profilePic, setUserId, setUsername, setEmail, setProfilePic }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Dashboard />}>
-            <Route index element={<Home />} />
-            <Route path="/dashboard/searchAnime" element={<Search />} />
-            <Route path="/dashboard/searchManga" element={<Search />} />
-            <Route path="/dashboard/searchWebtoon" element={<Search />} />
-            <Route path="/dashboard/anime/:id" element={<Anime />} />
-            <Route path="/dashboard/manga/:id" element={<Anime />} />
-            <Route path="/dashboard/list" element={<List />} />
-            <Route path="/dashboard/list/:id" element={<ListItem />} />
-            <Route path="/dashboard/settings" element={<Home />} />
-            <Route path="/dashboard/profile/:id" element={<Profile />} />
-            <Route path="/dashboard/searchSongs" element={<SearchSong />} />
-            <Route path="/dashboard/:id/songs" element={<Songs />} />
-            <Route path="/dashboard/:id/:basename" element={<Song />} />
-            <Route path="/dashboard/topSongs" element={<TopSongs />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Dashboard />}>
+              <Route index element={<Home />} />
+              <Route path="/dashboard/searchAnime" element={<Search />} />
+              <Route path="/dashboard/searchManga" element={<Search />} />
+              <Route path="/dashboard/searchWebtoon" element={<Search />} />
+              <Route path="/dashboard/anime/:id" element={<Anime />} />
+              <Route path="/dashboard/manga/:id" element={<Anime />} />
+              <Route path="/dashboard/list" element={<List />} />
+              <Route path="/dashboard/list/:id" element={<ListItem />} />
+              <Route path="/dashboard/settings" element={<Home />} />
+              <Route path="/dashboard/profile/:id" element={<Profile />} />
+              <Route path="/dashboard/searchSongs" element={<SearchSong />} />
+              <Route path="/dashboard/:id/songs" element={<Songs />} />
+              <Route path="/dashboard/:id/:basename" element={<Song />} />
+              <Route path="/dashboard/topSongs" element={<TopSongs />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </Router>
       </UserConext.Provider>
-    </>
+    </ErrorBoundary>
   );
 }
 
