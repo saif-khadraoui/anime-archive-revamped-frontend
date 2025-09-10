@@ -1,96 +1,331 @@
-.container{
+/* Container */
+.container {
     flex: 5;
-    background-color: var(--bg);
-    padding: 20px;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 24px;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
-.heroAnime{
+/* Hero Section */
+.heroAnime {
     width: 100%;
-    height: 50%;
+    height: 50vh;
+    min-height: 350px;
+    max-height: 500px;
     background-image: url("../../../assets/naruto-landscape.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: 12px;
+    background-position: center;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
-.heroAnimeHeader{
+.heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 1;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 2;
     width: 100%;
-    /* display: flex;
-    justify-content: flex-end; */
-    padding: 20px;
-}
-
-.heroAnimeInfo{
-    /* position: absolute;
-    bottom: 0; */
-    padding: 20px;
-}
-
-.heroAnimeTitle{
-    color: var(--text);
-    font-weight: bold;
-    font-size: 24px;
-}
-
-.heroAnimeLength{
-    color: var(--text);
-    font-weight: 500;
-}
-
-.heroAnimeDesc{
-    color: var(--text);
-    width: 40%;
-}
-
-.rating{
-    width: 50px;
-    padding: 1px;
+    height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 5px;
-    background-color: var(--alt);
-    border-radius: 12px;
+    padding: 40px;
 }
 
-.rating p{
-    color: var(--text);
+.heroAnimeInfo {
+    max-width: 600px;
+    color: white;
+}
+
+.heroAnimeTitle h2 {
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.heroAnimeMeta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.heroAnimeMeta span {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 14px;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
-
-
-.topRatedHeader h3{
-    color: var(--text);
-    font-weight: bold;
+.episodes {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: none !important;
+    color: white !important;
 }
 
-@media all and (max-width: 768px) {
-    /* .container{
-        height: fit-content;
-    } */
-    .heroAnime{
-        height: 50%;
-        /* display: none; */
+.heroAnimeDesc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 500px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.heroActions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.rating span {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 12px;
+}
+
+.playButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.playButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.bookmarkButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.bookmarkButton:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Top Rated Section */
+.topRatedHeader h3 {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 20px;
     }
+    
+    .heroAnimeTitle h2 {
+        font-size: 40px;
+    }
+    
+    .heroContent {
+        padding: 32px;
+    }
+}
 
-    .heroAnimeTitle{
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .heroAnime {
+        height: 45vh;
+        min-height: 300px;
+        max-height: 400px;
+    }
+    
+    .heroContent {
+        padding: 24px;
+    }
+    
+    .heroAnimeTitle h2 {
+        font-size: 32px;
+    }
+    
+    .heroAnimeDesc {
+        font-size: 14px;
+        max-width: 100%;
+    }
+    
+    .heroAnimeMeta {
+        gap: 8px;
+    }
+    
+    .heroAnimeMeta span {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
+    .heroActions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .actionButtons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .playButton {
+        padding: 10px 20px;
         font-size: 14px;
     }
-
-    .heroAnimeDesc{
-        width: 70%;
-        font-size: 8px;
+    
+    .bookmarkButton {
+        width: 44px;
+        height: 44px;
     }
+}
 
-    .rating p{
-        font-size: 8px;
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 12px;
+        gap: 16px;
+    }
+    
+    .heroAnime {
+        height: 40vh;
+        min-height: 250px;
+        max-height: 350px;
+        border-radius: 16px;
+    }
+    
+    .heroContent {
+        padding: 20px;
+    }
+    
+    .heroAnimeTitle h2 {
+        font-size: 24px;
+    }
+    
+    .heroAnimeDesc {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+    
+    .heroAnimeMeta {
+        margin-bottom: 16px;
+    }
+    
+    .heroAnimeMeta span {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+    
+    .rating {
+        padding: 6px 12px;
+    }
+    
+    .rating span {
+        font-size: 14px;
+    }
+    
+    .playButton {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .bookmarkButton {
+        width: 40px;
+        height: 40px;
     }
 }

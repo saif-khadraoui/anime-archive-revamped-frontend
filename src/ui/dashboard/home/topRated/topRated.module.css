@@ -1,31 +1,39 @@
 .container{
     width: 100%;
-    height: 40%;
-    /* display: flex;
+    min-height: 350px;
+    max-height: 400px;
+    display: flex;
     flex-direction: column;
-    align-items: center; */
-    /* justify-content: center; */
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
 }
 
-.header{}
+.header{
+    text-align: center;
+}
 
 .header h3{
-    color: var(--text);
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .carouselContainer{
     width: 100%;
-    height: 100%;
+    flex: 1;
     overflow: hidden;
     display: flex;
     justify-content: center;
-    /* overflow: hidden; */
-    /* display: flex;
-    justify-content: center; */
-    /* margin: 10px 5%; */
-    /* display: flex;
-    justify-content: center;
-    overflow: hidden; */
+    align-items: center;
 }
 
 .inner{
@@ -34,43 +42,51 @@
 }
 
 .innerContainer{
-    max-width: 900px;
+    width: 100%;
     padding: 0px;
-    gap: 10px;
+    gap: 16px;
     display: flex;
     overflow: hidden;
 }
 
 .sliderClass{
     display: flex;
-    gap: 20px;
-    /* width: 800px; */
-    /* padding: 0px; */
-    /* width: 500px; */
+    gap: 5px;
+    align-items: center;
 }
 
 .itemClass{
     display: flex;
     justify-content: center;
-    max-width: 150px;
-    max-height: 200px;
+    max-width: 200px;
+    height: 100%;
 }
         
 .item{
     height: 100%;
-    /* width: calc(100% / 6); */
     width: 100%;
+    max-width: 180px;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     cursor: pointer;
-    /* overflow: hidden; */
+    transition: transform 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.3);
 }
 
 .item img{
     width: 100%;
-    height: 100%;
-    border-radius: 12px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
     pointer-events: none;
 }
 
@@ -78,59 +94,96 @@
     text-align: center;
     display: flex;
     justify-content: center;
-    color: var(--text);
+    align-items: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 8px;
+    line-height: 1.3;
+    min-height: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 12px 12px;
 }
 
-@media screen and (max-width: 748px) {
-    /* .container{
-        display: none;
-    } */
-    .innerContainer{
-        max-width: 600px;
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 20px;
+        min-height: 280px;
+        max-height: 350px;
     }
-
-    .itemClass{
-        width: 200px;
-        height: 250px;
+    
+    .header h3 {
+        font-size: 20px;
     }
-
-    .sliderClass{
-        gap: 5px;
+    
+    .item {
+        max-width: 160px;
     }
-}
-
-@media screen and (max-width: 600px) {
-    /* .container{
-        display: none;
-    } */
-    .innerContainer{
-        max-width: 400px;
-    }
-
-    .itemClass{
-        width: 200px;
-        height: 250px;
-    }
-
-    .sliderClass{
-        gap: 5px;
+    
+    .item img {
+        height: 180px;
     }
 }
 
-@media screen and (max-width: 400px) {
-    /* .container{
-        display: none;
-    } */
-    .innerContainer{
-        max-width: 200px;
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 16px;
+        min-height: 250px;
+        max-height: 320px;
+        gap: 16px;
     }
-
-    .itemClass{
-        width: 200px;
-        height: 250px;
+    
+    .header h3 {
+        font-size: 18px;
     }
+    
+    .item {
+        max-width: 140px;
+    }
+    
+    .item img {
+        height: 160px;
+    }
+    
+    .anime_title {
+        font-size: 12px;
+        padding: 10px 6px;
+        min-height: 45px;
+    }
+    
+    .sliderClass {
+        gap: 12px;
+    }
+}
 
-    .sliderClass{
-        gap: 5px;
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 12px;
+        min-height: 220px;
+        max-height: 280px;
+        gap: 12px;
+    }
+    
+    .header h3 {
+        font-size: 16px;
+    }
+    
+    .item {
+        max-width: 120px;
+    }
+    
+    .item img {
+        height: 140px;
+    }
+    
+    .anime_title {
+        font-size: 11px;
+        padding: 8px 4px;
+        min-height: 40px;
+    }
+    
+    .sliderClass {
+        gap: 8px;
     }
 }

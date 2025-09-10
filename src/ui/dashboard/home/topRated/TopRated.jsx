@@ -90,7 +90,7 @@ function TopRated() {
                 slidesToSlide={1}
                 swipeable
               >
-                 {animes.map((item, idx) => {
+                 {animes?.map((item, idx) => {
                         return(
                             <div className={styles.item} key={idx} onClick={(() => {
                                 navigate(`/dashboard/anime/${item.mal_id}`)
