@@ -612,3 +612,14 @@
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 }
+
+/* Mobile navbar spacing */
+@media screen and (max-width: 1040px) {
+    .container {
+        padding-top: 0;
+    }
+    
+    .hero {
+        margin-top: 0;
+    }
+}

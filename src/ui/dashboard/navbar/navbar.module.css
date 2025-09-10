@@ -4,20 +4,32 @@
     display: flex;
     justify-content: space-between;
     height: 50px;
-    /* align-items: center; */
+    align-items: center;
     color: var(--text);
     padding: 10px;
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
 }
 
 .right button{
     width: 50px;
-    background-color: var(--alt);
-    padding: 5px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 12px;
     border-radius: 8px;
-    color: var(--text);
+    color: white;
     outline: none;
     border: none;
     cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.right button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .hamburger{
@@ -25,10 +37,26 @@
     height: 30px;
     color: white;
     display: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.hamburger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
 }
 
 @media screen and (max-width: 1040px) {
     .hamburger{
         display: block;
+    }
+    
+    .container {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
     }
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from "../../ui/register/register.module.css"
 import { Link } from 'react-router-dom'
 import Axios from "axios"
+import { MdEmail, MdLock, MdPerson, MdPersonAdd } from "react-icons/md";
 
 function Register() {
   const [email, setEmail] = useState("")
@@ -21,24 +22,71 @@ function Register() {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={attemptRegister}>
-        <div className={styles.input}>
-          <p>Email</p>
-          <input type='email' placeholder='Enter your email' value={email} onChange={((e) => setEmail(e.target.value))} />
+      <div className={styles.authCard}>
+        <div className={styles.header}>
+          <div className={styles.logo}>
+            <MdPersonAdd size={48} />
+          </div>
+          <h1>Create Account</h1>
+          <p>Join us and start your anime journey</p>
         </div>
-        <div className={styles.input}>
-          <p>Username</p>
-          <input type='text' placeholder='Enter a username' value={username} onChange={((e) => setUsername(e.target.value))} />
-        </div>
-        <div className={styles.input}>
-          <p>Password</p>
-          <input type='password' placeholder='Enter a password' value={password} onChange={((e) => setPassword(e.target.value))} />
-        </div>
-        <div className={styles.button}>
-          <button type="submit">Register</button>
-        </div>
-        <p>Already a user?<Link to="/login">Login here</Link></p>
-      </form>
+        
+        <form onSubmit={attemptRegister} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email">Email</label>
+            <div className={styles.inputContainer}>
+              <MdEmail className={styles.inputIcon} />
+              <input 
+                id="email"
+                type='email' 
+                placeholder='Enter your email' 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <label htmlFor="username">Username</label>
+            <div className={styles.inputContainer}>
+              <MdPerson className={styles.inputIcon} />
+              <input 
+                id="username"
+                type='text' 
+                placeholder='Choose a username' 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Password</label>
+            <div className={styles.inputContainer}>
+              <MdLock className={styles.inputIcon} />
+              <input 
+                id="password"
+                type='password' 
+                placeholder='Create a password' 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          
+          <button type="submit" className={styles.submitButton}>
+            <MdPersonAdd size={20} />
+            Create Account
+          </button>
+          
+          <div className={styles.footer}>
+            <p>Already have an account? <Link to="/login" className={styles.link}>Sign in here</Link></p>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

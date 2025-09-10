@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../contexts/User';
+import { MdEmail, MdLock, MdPerson, MdLogin } from "react-icons/md";
 
 function Login() {
   const navigate = useNavigate()
@@ -33,22 +34,56 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={attemptLogin}>
-        <div className={styles.input}>
-          <p>Username</p>
-          <input type='text' placeholder='Enter a username' value={username} onChange={((e) => setUsernameValue(e.target.value))} />
+      <div className={styles.authCard}>
+        <div className={styles.header}>
+          <div className={styles.logo}>
+            <MdLogin size={48} />
+          </div>
+          <h1>Welcome Back</h1>
+          <p>Sign in to your account</p>
         </div>
-        <div className={styles.input}>
-          <p>Password</p>
-          <input type='password' placeholder='Enter a password' value={password} onChange={((e) => setPassword(e.target.value))} />
-        </div>
-        <div className={styles.button}>
-          <button type="submit">Login</button>
-        </div>
-        <p>Not a user?<Link to="/register"> Register here</Link></p>
-      </form>
-
-
+        
+        <form onSubmit={attemptLogin} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="username">Username</label>
+            <div className={styles.inputContainer}>
+              <MdPerson className={styles.inputIcon} />
+              <input 
+                id="username"
+                type='text' 
+                placeholder='Enter your username' 
+                value={username} 
+                onChange={(e) => setUsernameValue(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Password</label>
+            <div className={styles.inputContainer}>
+              <MdLock className={styles.inputIcon} />
+              <input 
+                id="password"
+                type='password' 
+                placeholder='Enter your password' 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+          
+          <button type="submit" className={styles.submitButton}>
+            <MdLogin size={20} />
+            Sign In
+          </button>
+          
+          <div className={styles.footer}>
+            <p>Don't have an account? <Link to="/register" className={styles.link}>Sign up here</Link></p>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
