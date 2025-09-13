@@ -5,10 +5,12 @@ import { FaStar, FaPlay, FaBookmark } from "react-icons/fa6";
 import { MdPlayArrow } from "react-icons/md";
 import UserConext from '../../../contexts/User';
 import TopRated from '../../../ui/dashboard/home/topRated/TopRated';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
 
   const { userId } = useContext(UserConext)
+  const navigate = useNavigate()
 
   return (
     <div className={styles.container}>
@@ -34,12 +36,9 @@ function Home() {
                   <span>9.0</span>
                 </div>
                 <div className={styles.actionButtons}>
-                  <button className={styles.playButton}>
+                  <button className={styles.playButton} onClick={() => navigate(`/dashboard/anime/20`)}>
                     <MdPlayArrow size={20} />
-                    Watch Now
-                  </button>
-                  <button className={styles.bookmarkButton}>
-                    <FaBookmark size={16} />
+                    Check it out
                   </button>
                 </div>
               </div>

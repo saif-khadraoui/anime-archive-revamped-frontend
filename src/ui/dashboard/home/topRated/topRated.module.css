@@ -67,7 +67,7 @@
 
 .sliderClass{
     display: flex;
-    gap: 5px;
+    gap: 8px;
     align-items: center;
 }
 
@@ -81,7 +81,7 @@
 .item{
     height: 100%;
     width: 100%;
-    max-width: 180px;
+    /* max-width: 180px; */
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -154,9 +154,9 @@
         font-size: 18px;
     }
     
-    .item {
+    /* .item {
         max-width: 140px;
-    }
+    } */
     
     .item img {
         height: 160px;
@@ -185,9 +185,9 @@
         font-size: 16px;
     }
     
-    .item {
+    /* .item {
         max-width: 120px;
-    }
+    } */
     
     .item img {
         height: 140px;
