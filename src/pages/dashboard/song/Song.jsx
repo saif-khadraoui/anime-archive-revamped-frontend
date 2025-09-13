@@ -50,6 +50,9 @@ function Song() {
                 await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteSongVote", {
                     params: { basename, userId }
                 })
+                // Reset vote states immediately
+                setUpVoteIsTrue(false)
+                setDownVoteIsTrue(false)
                 setUpdate(!update)
             }
             // Case 2: User changes their vote (down to up, or up to down)
@@ -68,8 +71,8 @@ function Song() {
                 })
                 setUpdate(!update)
             }
-            // Case 3: User votes for the first time
-            else {
+            // Case 3: User votes for the first time OR re-votes after removal
+            else if((type === "up" && !upVoteIsTrue && !downVoteIsTrue) || (type === "down" && !upVoteIsTrue && !downVoteIsTrue)){
                 console.log("Adding new vote:", type)
                 await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
                     animeId: id,

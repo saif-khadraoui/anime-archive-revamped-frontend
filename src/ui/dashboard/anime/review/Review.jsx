@@ -16,6 +16,7 @@ function Review({review}) {
     const [downVotes, setDownVotes] = useState()
     const [upVoteIsTrue, setUpVoteIsTrue] = useState(false)
     const [downVoteIsTrue, setDownVoteIsTrue] = useState(false)
+    const [votingLoading, setVotingLoading] = useState(false)
 
     const handleUsernameClick = () => {
         if (!review.Guest && review.Username) {
@@ -24,48 +25,55 @@ function Review({review}) {
     }
 
     const attemptVote = async (type) => {
-        console.log(type)
-        console.log(downVoteIsTrue)
+        if (votingLoading) return // Prevent multiple clicks
+        console.log(upVoteIsTrue, downVoteIsTrue)
+        
+        try {
+            setVotingLoading(true)
+            console.log("Voting on review:", type, "Current upVote:", upVoteIsTrue, "Current downVote:", downVoteIsTrue)
 
-
-        if(type == "up" && upVoteIsTrue == true || type == "down" && downVoteIsTrue == true){
-            console.log("here")
-            await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteVote", {
-                params: { reviewId, userId }
-            }).then((response) => {
-                console.log(response)
+            // Case 1: User clicks the same button they already voted for (remove vote)
+            if((type === "up" && upVoteIsTrue) || (type === "down" && downVoteIsTrue)){
+                console.log("Removing existing vote")
+                await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteVote", {
+                    params: { reviewId, userId }
+                })
+                // Reset vote states immediately
+                setUpVoteIsTrue(false)
+                setDownVoteIsTrue(false)
                 setUpdate(!update)
-            })
-        }
-
-        else if (type == "up" && downVoteIsTrue == true || type == "down" && upVoteIsTrue == true){
-            await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteVote", {
-                params: { reviewId, userId }
-            }).then((response) => {
-                console.log(response)
-            })
-            await Axios.post("https://anime-archive-revamped.onrender.com/api/vote", {
-            reviewId: reviewId,
-            userId: userId,
-            vote: type == "up" ? true : false
-        }).then((response) => {
-            console.log(response)
-            setUpdate(!update)
-        })
-        } else{
-            await Axios.post("https://anime-archive-revamped.onrender.com/api/vote", {
-                reviewId: reviewId,
-                userId: userId,
-                vote: type == "up" ? true : false
-            }).then((response) => {
-                console.log(response)
+            }
+            // Case 2: User changes their vote (down to up, or up to down)
+            else if((type === "up" && downVoteIsTrue) || (type === "down" && upVoteIsTrue)){
+                console.log("Changing vote from", downVoteIsTrue ? "down" : "up", "to", type)
+                // First delete the existing vote
+                await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteVote", {
+                    params: { reviewId, userId }
+                })
+                // Then add the new vote
+                await Axios.post("https://anime-archive-revamped.onrender.com/api/vote", {
+                    reviewId: reviewId,
+                    userId: userId,
+                    vote: type === "up"
+                })
                 setUpdate(!update)
-            })
+            }
+            // Case 3: User votes for the first time OR re-votes after removal
+            else if((type === "up" && !upVoteIsTrue && !downVoteIsTrue) || (type === "down" && !upVoteIsTrue && !downVoteIsTrue)){
+                console.log("Adding new vote:", type)
+                await Axios.post("https://anime-archive-revamped.onrender.com/api/vote", {
+                    reviewId: reviewId,
+                    userId: userId,
+                    vote: type === "up"
+                })
+                setUpdate(!update)
+            }
+        } catch (error) {
+            console.error("Error voting on review:", error)
+            // You could add a toast notification here to show the error to the user
+        } finally {
+            setVotingLoading(false)
         }
-
-
-
-
     }
 
     useEffect(() => {
@@ -85,7 +93,7 @@ function Review({review}) {
             await Axios.get("https://anime-archive-revamped.onrender.com/api/checkIfVoted", {
                 params: { reviewId, userId }
             }).then((response) => {
-                // console.log(response)
+                console.log("checking if voted", response)
                 if(response.data[0]?.Vote == true){
                     setUpVoteIsTrue(true)
                     setDownVoteIsTrue(false)
@@ -137,11 +145,25 @@ function Review({review}) {
             <div className={styles.reviewVote}>
                 <div className={styles.vote}>
                     <p>{upVotes}</p>
-                    <FaArrowAltCircleUp style={{ cursor: "pointer", color: upVoteIsTrue ? "red" : "white" }} onClick={(() => attemptVote("up"))}/>
+                    <FaArrowAltCircleUp 
+                        style={{ 
+                            cursor: votingLoading ? "not-allowed" : "pointer", 
+                            color: upVoteIsTrue ? "red" : "white",
+                            opacity: votingLoading ? 0.5 : 1
+                        }} 
+                        onClick={() => !votingLoading && attemptVote("up")}
+                    />
                 </div>
                 <div className={styles.vote}>
                     <p>{downVotes}</p>
-                    <FaArrowAltCircleDown style={{ cursor: "pointer", color: downVoteIsTrue ? "red" : "white" }} onClick={(() => attemptVote("down"))}/>
+                    <FaArrowAltCircleDown 
+                        style={{ 
+                            cursor: votingLoading ? "not-allowed" : "pointer", 
+                            color: downVoteIsTrue ? "red" : "white",
+                            opacity: votingLoading ? 0.5 : 1
+                        }} 
+                        onClick={() => !votingLoading && attemptVote("down")}
+                    />
                 </div>
             </div>
 
