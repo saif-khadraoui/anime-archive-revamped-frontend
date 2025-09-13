@@ -4,32 +4,45 @@ import { Link } from 'react-router-dom'
 import Axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../../contexts/User';
-import { MdEmail, MdLock, MdPerson, MdLogin } from "react-icons/md";
+import { MdEmail, MdLock, MdPerson, MdLogin, MdError } from "react-icons/md";
 
 function Login() {
   const navigate = useNavigate()
 
   const [username, setUsernameValue] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   const { setUserId, setUsername, setEmail, setProfilePic } = useContext(UserContext)
 
 
   const attemptLogin = async (e) => {
     e.preventDefault()
-    await Axios.get("https://anime-archive-revamped.onrender.com/api/login", {
-      params: { username, password }
-    }).then((response) => {
+    setLoading(true)
+    setErrorMessage("")
+    
+    try {
+      const response = await Axios.get("https://anime-archive-revamped.onrender.com/api/login", {
+        params: { username, password }
+      })
+      
       console.log(response)
       if(response.data.length > 0){
-        // alert("logged in")
         setUserId(response.data[0]._id)
         setUsername(response.data[0].username)
         setEmail(response.data[0].email)
         setProfilePic(response.data[0].profilePic)
         navigate("/")
+      } else {
+        setErrorMessage("Invalid username or password. Please try again.")
       }
-    })
+    } catch (error) {
+      console.error("Login error:", error)
+      setErrorMessage("Invalid username or password. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -42,6 +55,13 @@ function Login() {
           <h1>Welcome Back</h1>
           <p>Sign in to your account</p>
         </div>
+        
+        {errorMessage && (
+          <div className={styles.errorMessage}>
+            <MdError size={20} />
+            <span>{errorMessage}</span>
+          </div>
+        )}
         
         <form onSubmit={attemptLogin} className={styles.form}>
           <div className={styles.inputGroup}>
@@ -74,9 +94,9 @@ function Login() {
             </div>
           </div>
           
-          <button type="submit" className={styles.submitButton}>
+          <button type="submit" className={styles.submitButton} disabled={loading}>
             <MdLogin size={20} />
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
           
           <div className={styles.footer}>

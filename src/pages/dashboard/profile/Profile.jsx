@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import styles from "../../../ui/dashboard/profile/profile.module.css"
 import Navbar from '../../../ui/dashboard/navbar/Navbar'
 import UserContext from '../../../contexts/User'
+import { useNavigate } from 'react-router-dom'
 import Axios from "axios"
 import { 
   FaEdit, 
@@ -23,11 +24,13 @@ import SyncLoader from "react-spinners/SyncLoader"
 
 function Profile() {
   const { username, email, profilePic } = useContext(UserContext)
+  const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false)
   const [showCustomization, setShowCustomization] = useState(false)
   const [loading, setLoading] = useState(true)
   const [userDetails, setUserDetails] = useState(null)
   const [userStats, setUserStats] = useState(null)
+  const [favoriteAnime, setFavoriteAnime] = useState([])
   
   // User profile data - will be populated from API
   const [userProfile, setUserProfile] = useState({
@@ -43,41 +46,6 @@ function Profile() {
     }
   })
 
-  // Mock favorite anime data
-  const favoriteAnime = [
-    {
-      id: 1,
-      title: "Attack on Titan",
-      image: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
-      rating: 9.5,
-      episodes: 75,
-      status: "Completed"
-    },
-    {
-      id: 2,
-      title: "Demon Slayer",
-      image: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
-      rating: 9.2,
-      episodes: 44,
-      status: "Watching"
-    },
-    {
-      id: 3,
-      title: "Your Name",
-      image: "https://cdn.myanimelist.net/images/anime/1122/96435.jpg",
-      rating: 9.0,
-      episodes: 1,
-      status: "Completed"
-    },
-    {
-      id: 4,
-      title: "One Piece",
-      image: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
-      rating: 8.8,
-      episodes: 1000,
-      status: "Watching"
-    }
-  ]
 
   const [customization, setCustomization] = useState({
     theme: "dark",
@@ -123,6 +91,14 @@ function Profile() {
     }
   }
 
+  const handleAnimeClick = (animeId, animeType) => {
+    if (animeType === "Manga") {
+      navigate(`/dashboard/manga/${animeId}`)
+    } else {
+      navigate(`/dashboard/anime/${animeId}`)
+    }
+  }
+
   const handleCustomization = () => {
     setShowCustomization(!showCustomization)
   }
@@ -135,19 +111,26 @@ function Profile() {
         try {
           setLoading(true)
           
-          // Fetch user details and statistics in parallel
-          const [userDetailsResponse, userStatsResponse] = await Promise.all([
-            Axios.get("https://anime-archive-revamped.onrender.com/api/getUserDetails", {
-              params: { userId }
-            }),
-            Axios.get("https://anime-archive-revamped.onrender.com/api/getUserStats", {
-              params: { userId }
-            })
-          ])
-          
+        // Fetch user details, statistics, and favorites in parallel
+        const [userDetailsResponse, userStatsResponse, favoritesResponse] = await Promise.all([
+          Axios.get("https://anime-archive-revamped.onrender.com/api/getUserDetails", {
+            params: { userId }
+          }),
+          Axios.get("https://anime-archive-revamped.onrender.com/api/getUserStats", {
+            params: { userId }
+          }),
+          Axios.get("https://anime-archive-revamped.onrender.com/api/getFavorites", {
+            params: { userId }
+          })
+        ])
+        
         setUserDetails(userDetailsResponse.data)
         setUserStats(userStatsResponse.data)
         console.log("user profile fetched:", userDetailsResponse.data)
+        
+        if (favoritesResponse.data.success) {
+          setFavoriteAnime(favoritesResponse.data.favorites)
+        }
         
         // Update userProfile with real data from API
         setUserProfile(prev => ({
@@ -354,26 +337,34 @@ function Profile() {
         </div>
         
         <div className={styles.favoritesGrid}>
-          {favoriteAnime.map((anime) => (
-            <div key={anime.id} className={styles.favoriteCard}>
-              <div className={styles.animeImage}>
-                <img src={anime.image} alt={anime.title} />
-                <div className={styles.animeOverlay}>
-                  <div className={styles.rating}>
-                    <FaStar size={14} />
-                    <span>{anime.rating}</span>
-                  </div>
-                  <div className={styles.status}>
-                    {anime.status}
+          {favoriteAnime.length > 0 ? (
+            favoriteAnime.map((anime) => (
+              <div 
+                key={anime.animeId} 
+                className={styles.favoriteCard}
+                onClick={() => handleAnimeClick(anime.animeId, anime.type)}
+              >
+                <div className={styles.animeImage}>
+                  <img src={anime.image} alt={anime.title} />
+                  <div className={styles.animeOverlay}>
+                    <div className={styles.addedDate}>
+                      <span>Added {new Date(anime.addedDate).toLocaleDateString()}</span>
+                    </div>
                   </div>
                 </div>
+                <div className={styles.animeInfo}>
+                  <h4>{anime.title}</h4>
+                  <p>{anime.type || "Anime"} • ID: {anime.animeId}</p>
+                </div>
               </div>
-              <div className={styles.animeInfo}>
-                <h4>{anime.title}</h4>
-                <p>{anime.episodes} episodes</p>
-              </div>
+            ))
+          ) : (
+            <div className={styles.emptyFavorites}>
+              <MdFavorite size={48} />
+              <p>No favorite anime yet</p>
+              <span>Start exploring and add anime to your favorites!</span>
             </div>
-          ))}
+          )}
         </div>
       </div>
 

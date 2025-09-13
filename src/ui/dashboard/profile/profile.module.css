@@ -433,12 +433,18 @@
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .favoriteCard:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
     border-color: rgba(102, 126, 234, 0.3);
+}
+
+.favoriteCard:active {
+    transform: translateY(-2px);
+    transition: transform 0.1s ease;
 }
 
 .animeImage {
@@ -520,6 +526,35 @@
     color: rgba(255, 255, 255, 0.7);
     font-size: 14px;
     margin: 0;
+}
+
+/* Empty Favorites State */
+.emptyFavorites {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.emptyFavorites svg {
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 16px;
+}
+
+.emptyFavorites p {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.emptyFavorites span {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Customization Modal */
@@ -772,6 +807,18 @@
         gap: 16px;
     }
     
+    .emptyFavorites {
+        padding: 40px 16px;
+    }
+    
+    .emptyFavorites p {
+        font-size: 16px;
+    }
+    
+    .emptyFavorites span {
+        font-size: 13px;
+    }
+    
     .coverOverlay {
         padding: 16px;
     }
@@ -879,6 +926,18 @@
     
     .favoritesGrid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .emptyFavorites {
+        padding: 30px 12px;
+    }
+    
+    .emptyFavorites p {
+        font-size: 14px;
+    }
+    
+    .emptyFavorites span {
+        font-size: 12px;
     }
     
     .modalContent {

@@ -6,7 +6,7 @@ import Axios from "axios"
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import { FaStar, FaPlay, FaBookmark, FaUsers, FaCalendarAlt } from "react-icons/fa6";
+import { FaStar, FaPlay, FaBookmark, FaUsers, FaCalendarAlt, FaHeart } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
 import { MdAdd, MdCheck } from "react-icons/md";
@@ -42,15 +42,60 @@ function Anime() {
     const [lists, setLists] = useState([])
     const [selectedList, setSelectedList] = useState("")
     const [showButton, setShowButton] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(false)
+    const [favoriteLoading, setFavoriteLoading] = useState(false)
 
     const [averageStars, setAverageStars] = useState(0)
+    
+    // Favorite functions
+    const toggleFavorite = async () => {
+        if (!userId) return;
+        
+        setFavoriteLoading(true);
+        try {
+            if (isFavorite) {
+                // Remove from favorites
+                await Axios.delete("https://anime-archive-revamped.onrender.com/api/removeFromFavorites", {
+                    data: {
+                        userId: userId,
+                        animeId: animeData.mal_id.toString()
+                    }
+                });
+                setIsFavorite(false);
+            } else {
+                // Add to favorites
+                await Axios.post("https://anime-archive-revamped.onrender.com/api/addToFavorites", {
+                    userId: userId,
+                    animeId: animeData.mal_id.toString(),
+                    title: animeData.title,
+                    image: animeData.images?.jpg?.image_url,
+                    type: type === "manga" ? "Manga" : "Anime"
+                });
+                setIsFavorite(true);
+            }
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+        } finally {
+            setFavoriteLoading(false);
+        }
+    };
+
     const addToList = async() => {
         setAnimeAdded(true)
         // console.log(selectedList)
+        
+        // Determine the correct type based on the current page path
+        let itemType = "Anime" // default
+        if (type === "manga") {
+            itemType = "Manga"
+        } else if (type === "anime") {
+            itemType = "Anime"
+        }
+        
         await Axios.post("https://anime-archive-revamped.onrender.com/api/addToList", {
             selectedList: selectedList,
             userId: userId,
-            type: animeData?.type == "Manga" ? "Manga" : "Anime",
+            type: itemType,
             animeId: id,
             img: animeData.images?.jpg?.image_url,
             title: animeData.title
@@ -170,6 +215,30 @@ function Anime() {
         calculateAverageStars()
     }, [reviews])
 
+    // Check if anime is in favorites
+    useEffect(() => {
+        const checkFavorite = async () => {
+            if (!userId || !animeData) return;
+            
+            try {
+                const response = await Axios.get("https://anime-archive-revamped.onrender.com/api/getFavorites", {
+                    params: { userId }
+                });
+                
+                if (response.data.success) {
+                    const isInFavorites = response.data.favorites.some(
+                        fav => fav.animeId === animeData.mal_id.toString()
+                    );
+                    setIsFavorite(isInFavorites);
+                }
+            } catch (error) {
+                console.error("Error checking favorites:", error);
+            }
+        };
+
+        checkFavorite();
+    }, [userId, animeData]);
+
     const updateSelectedList = (e) => {
         if(e.target.value == "Select a list"){
             setShowButton(false)
@@ -258,6 +327,25 @@ function Anime() {
                                     ) : (
                                         <p className={styles.noListsMessage}>Create a list to add anime</p>
                                     )}
+                                </div>
+                            )}
+
+                            {userId && (
+                                <div className={styles.favoriteSection}>
+                                    <button 
+                                        className={`${styles.favoriteButton} ${isFavorite ? styles.favorited : ''}`}
+                                        onClick={toggleFavorite}
+                                        disabled={favoriteLoading}
+                                    >
+                                        {favoriteLoading ? (
+                                            <SyncLoader color="#ffffff" size={8} />
+                                        ) : (
+                                            <>
+                                                <FaHeart size={16} />
+                                                {isFavorite ? 'Favorited' : 'Add to Favorites'}
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             )}
                         </div>
