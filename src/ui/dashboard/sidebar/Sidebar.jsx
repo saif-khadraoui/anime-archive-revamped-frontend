@@ -59,21 +59,7 @@ function Sidebar() {
             }
           ],
         },
-        {
-            title: "GENERAL",
-            list: [
-              {
-                title: "Settings",
-                path: "/dashboard/settings",
-                icon: <MdOutlineSettings />,
-              },
-              // {
-              //   title: "Logout",
-              //   path: `/dashboard`,
-              //   icon: <IoLogOutOutline />
-              // }
-            ],
-          },
+
       ];
 
       const userMenuItems = [
@@ -129,17 +115,7 @@ function Sidebar() {
                 title: "List",
                 path: "/dashboard/list",
                 icon: <MdChecklistRtl />,
-              },
-              {
-                title: "Settings",
-                path: "/dashboard/settings",
-                icon: <MdOutlineSettings />,
-              },
-              // {
-              //   title: "Logout",
-              //   path: `/dashboard`,
-              //   icon: <IoLogOutOutline />
-              // }
+              }
             ],
           },
       ];
@@ -194,7 +170,6 @@ function Sidebar() {
                 ))}
               </>
             )}
-              {userId && <button onClick={attemptLogout} className={styles.logoutButton}>Logout</button>}
           </ul>
       </div>
       <div className={styles.mobileContainer} id="mobileContainer">
@@ -226,7 +201,6 @@ function Sidebar() {
                 ))}
               </>
             )}
-              {userId && <button onClick={attemptLogout} className={styles.logoutButton}>Logout</button>}
           </ul>
       </div>
     </>
