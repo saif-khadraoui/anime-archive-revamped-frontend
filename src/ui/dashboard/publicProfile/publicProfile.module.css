@@ -1,0 +1,494 @@
+/* Container */
+.container {
+    flex: 4;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Loader */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+/* Error State */
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.errorState svg {
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+}
+
+.errorState h2 {
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.errorState p {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+}
+
+.backButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Profile Header */
+.profileHeader {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.coverPhoto {
+    height: 300px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.coverPhoto::before {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.coverOverlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.coverOverlayContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.coverUserDetails {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profilePicture {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.profilePicture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.coverUserDetailsContent h1 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.coverUserDetailsContent p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profileInfo {
+    padding: 0 40px;
+    margin-top: 20px;
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.userMeta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.metaItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.metaItem svg {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bio {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.bio p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Stats Section */
+.statsSection {
+    padding: 0 40px;
+    margin-bottom: 40px;
+}
+
+.statsSection h3 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.statCard {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-2px);
+    border-color: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.statIcon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.statInfo {
+    flex: 1;
+}
+
+.statNumber {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+}
+
+.statLabel {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Favorites Section */
+.favoritesSection {
+    padding: 0 40px;
+    margin-bottom: 40px;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sectionHeader h3 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.animeCount {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.favoritesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.favoriteCard {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.favoriteCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.favoriteCard:active {
+    transform: translateY(-2px);
+    transition: transform 0.1s ease;
+}
+
+.animeImage {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+}
+
+.animeImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.favoriteCard:hover .animeImage img {
+    transform: scale(1.05);
+}
+
+.animeOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, 0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+}
+
+.addedDate {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.animeInfo {
+    padding: 16px;
+}
+
+.animeInfo h4 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+}
+
+.animeInfo p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Empty Favorites State */
+.emptyFavorites {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.emptyFavorites svg {
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 16px;
+}
+
+.emptyFavorites p {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.emptyFavorites span {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .profileInfo {
+        padding: 0 20px;
+    }
+    
+    .statsSection {
+        padding: 0 20px;
+    }
+    
+    .favoritesSection {
+        padding: 0 20px;
+    }
+    
+    .statsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+    }
+    
+    .statCard {
+        padding: 16px;
+    }
+    
+    .statNumber {
+        font-size: 20px;
+    }
+    
+    .statLabel {
+        font-size: 12px;
+    }
+    
+    .favoritesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 16px;
+    }
+    
+    .coverOverlay {
+        padding: 16px;
+    }
+    
+    .profilePicture {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .coverUserDetailsContent h1 {
+        font-size: 24px;
+    }
+    
+    .coverUserDetailsContent p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profileInfo {
+        padding: 0 16px;
+    }
+    
+    .statsSection {
+        padding: 0 16px;
+    }
+    
+    .favoritesSection {
+        padding: 0 16px;
+    }
+    
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .statCard {
+        padding: 12px;
+    }
+    
+    .statIcon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .statNumber {
+        font-size: 18px;
+    }
+    
+    .statLabel {
+        font-size: 12px;
+    }
+    
+    .favoritesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .emptyFavorites {
+        padding: 40px 16px;
+    }
+    
+    .emptyFavorites p {
+        font-size: 16px;
+    }
+    
+    .emptyFavorites span {
+        font-size: 12px;
+    }
+}

@@ -10,6 +10,7 @@ import Anime from "./pages/dashboard/anime/Anime";
 import List from "./pages/dashboard/list/List";
 import ListItem from "./pages/dashboard/list/listItem/ListItem";
 import Profile from "./pages/dashboard/profile/Profile";
+import PublicProfile from "./pages/dashboard/publicProfile/PublicProfile";
 import SearchSong from "./pages/dashboard/searchSong/SearchSong";
 import Songs from "./pages/dashboard/songs/Songs";
 import Song from "./pages/dashboard/song/Song";
@@ -55,6 +56,7 @@ function App() {
               <Route path="/dashboard/list/:id" element={<ListItem />} />
               <Route path="/dashboard/settings" element={<Home />} />
               <Route path="/dashboard/profile/:id" element={<Profile />} />
+              <Route path="/dashboard/public-profile/:username" element={<PublicProfile />} />
               <Route path="/dashboard/searchSongs" element={<SearchSong />} />
               <Route path="/dashboard/:id/songs" element={<Songs />} />
               <Route path="/dashboard/:id/:basename" element={<Song />} />

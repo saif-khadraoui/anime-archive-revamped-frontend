@@ -33,7 +33,9 @@ function Songs() {
     }, [id])
 
     const routeSong = (basename) => {
-        navigate(`/dashboard/${id}/${basename}`)
+        navigate(`/dashboard/${id}/${basename}`, { 
+            state: { fromPage: 'songs' } 
+        })
     }
 
   return (

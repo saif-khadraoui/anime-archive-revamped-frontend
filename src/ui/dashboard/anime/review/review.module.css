@@ -25,6 +25,17 @@
     font-size: 12px;
 }
 
+.clickableUsername {
+    cursor: pointer;
+    color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.clickableUsername:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
 .reviewItemRight{
     display: flex;
     flex-direction: column;

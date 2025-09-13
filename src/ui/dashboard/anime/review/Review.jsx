@@ -3,9 +3,11 @@ import styles from "./review.module.css"
 import { FaStar } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 import Axios from "axios"
 
 function Review({review}) {
+    const navigate = useNavigate()
     const userId = localStorage.getItem("userId")
     const reviewId = review._id
     const [update, setUpdate] = useState(false)
@@ -14,6 +16,12 @@ function Review({review}) {
     const [downVotes, setDownVotes] = useState()
     const [upVoteIsTrue, setUpVoteIsTrue] = useState(false)
     const [downVoteIsTrue, setDownVoteIsTrue] = useState(false)
+
+    const handleUsernameClick = () => {
+        if (!review.Guest && review.Username) {
+            navigate(`/dashboard/public-profile/${review.Username}`)
+        }
+    }
 
     const attemptVote = async (type) => {
         console.log(type)
@@ -101,7 +109,17 @@ function Review({review}) {
             <div className={styles.reviewItemLeft}>
                 <CgProfile style={{ width: "30px", height: "30px" }}/>
                 <div className={styles.userDetails}>
-                    <p className={styles.username}>{review.Guest == true ? "Anonymous" : review.Username}</p>
+                    {review.Guest == true ? (
+                        <p className={styles.username}>Anonymous</p>
+                    ) : (
+                        <p 
+                            className={`${styles.username} ${styles.clickableUsername}`}
+                            onClick={handleUsernameClick}
+                            title="View profile"
+                        >
+                            {review.Username}
+                        </p>
+                    )}
                     <p className={styles.date}>{review.createdAt?.slice(0,10)}</p>
                 </div>
             </div>

@@ -1,13 +1,365 @@
-.container{
+/* Container */
+.container {
     flex: 4;
-    background-color: var(--bg);
-    padding: 20px;
-    height: 100%;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Loader */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+/* Error State */
+.errorState {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.errorState svg {
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+}
+
+.errorState h2 {
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.errorState p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Header Section */
+.header {
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
 
-.content{
+.headerIcon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.headerText h1 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.headerText p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Songs Section */
+.songsSection {
+    padding: 40px;
+}
+
+.songsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Song Card */
+.songCard {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.songCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.songCard:hover {
+    transform: translateY(-2px);
+    border-color: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.songCard:hover::before {
+    opacity: 1;
+}
+
+.songCard:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+}
+
+/* Rank */
+.rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+}
+
+.rankNumber {
+    font-size: 24px;
+    font-weight: 700;
+    color: #667eea;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Song Info */
+.songInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.songIcon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.songDetails {
+    flex: 1;
+}
+
+.songTitle {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.animeName {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Song Stats */
+.songStats {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.likesContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px;
+    padding: 8px 16px;
+}
+
+.likesContainer svg {
+    color: #667eea;
+}
+
+.likesCount {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.playButton {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.playButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.emptyState svg {
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 24px;
+}
+
+.emptyState h2 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.emptyState p {
+    font-size: 16px;
+    margin: 0;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 24px;
+    }
+    
+    .headerContent {
+        gap: 16px;
+    }
+    
+    .headerIcon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .headerText h1 {
+        font-size: 24px;
+    }
+    
+    .headerText p {
+        font-size: 14px;
+    }
+    
+    .songsSection {
+        padding: 24px;
+    }
+    
+    .songCard {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .rank {
+        min-width: 40px;
+    }
+    
+    .rankNumber {
+        font-size: 20px;
+    }
+    
+    .songIcon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .songTitle {
+        font-size: 16px;
+    }
+    
+    .animeName {
+        font-size: 12px;
+    }
+    
+    .playButton {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        padding: 20px;
+    }
+    
+    .songsSection {
+        padding: 20px;
+    }
+    
+    .songCard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .songInfo {
+        width: 100%;
+    }
+    
+    .songStats {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .emptyState {
+        padding: 60px 16px;
+    }
+    
+    .emptyState h2 {
+        font-size: 20px;
+    }
+    
+    .emptyState p {
+        font-size: 14px;
+    }
 }

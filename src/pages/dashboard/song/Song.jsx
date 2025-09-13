@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from "../../../ui/dashboard/song/song.module.css"
 import Navbar from '../../../ui/dashboard/navbar/Navbar'
 import Axios from "axios"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import ReactPlayer from 'react-player'
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { MdArrowBack, MdMusicNote, MdThumbUp, MdThumbDown } from "react-icons/md";
@@ -11,6 +11,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 function Song() {
     const {id, basename} = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
     const [link, setLink] = useState()
     const [loading, setLoading] = useState(true)
     const userId = localStorage.getItem("userId")
@@ -21,6 +22,19 @@ function Song() {
     const [downVotes, setDownVotes] = useState()
     const [upVoteIsTrue, setUpVoteIsTrue] = useState(false)
     const [downVoteIsTrue, setDownVoteIsTrue] = useState(false)
+
+    const handleBackNavigation = () => {
+        const fromPage = location.state?.fromPage
+        if (fromPage === 'topSongs') {
+            navigate('/dashboard/topSongs')
+        } else if (fromPage === 'songs') {
+            // Go back to songs page
+            navigate(`/dashboard/${id}/songs`)
+        } else {
+            // Default behavior: go back to songs page
+            navigate(`/dashboard/${id}/songs`)
+        }
+    }
 
     const attemptVote = async (type) => {
         console.log(type)
@@ -137,9 +151,9 @@ function Song() {
         
         {/* Header Section */}
         <div className={styles.header}>
-            <button className={styles.backButton} onClick={() => navigate(`/dashboard/${id}/songs`)}>
+            <button className={styles.backButton} onClick={handleBackNavigation}>
                 <MdArrowBack size={20} />
-                Back to Songs
+                {location.state?.fromPage === 'topSongs' ? 'Back to Top Songs' : 'Back to Songs'}
             </button>
             <div className={styles.headerContent}>
                 <div className={styles.songIcon}>
