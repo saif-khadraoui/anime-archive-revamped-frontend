@@ -18,7 +18,7 @@ function TopRated() {
         },
         mobile: {
           breakpoint: {
-            max: 300,
+            max: 464,
             min: 0
           },
           items: 1,
@@ -34,19 +34,28 @@ function TopRated() {
         }
       }
     const [animes, setAnimes] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const [width, setWidth] = useState(0)
     const carousel = useRef()
     const navigate = useNavigate()
 
     useEffect(() => {
         const fetchAnimes = async () => {
-            await Axios.get("https://api.jikan.moe/v4/top/anime").then((response) => {
-                console.log(response)
+            try {
+                setLoading(true)
+                setError(null)
+                const response = await Axios.get("https://api.jikan.moe/v4/top/anime")
+                console.log("Top rated anime response:", response)
                 setAnimes(response.data.data.slice(0, 20))
-            })
+            } catch (error) {
+                console.error("Error fetching top rated anime:", error)
+                setError("Failed to load top rated anime")
+            } finally {
+                setLoading(false)
+            }
         }
         fetchAnimes()
-
     }, [])
 
     useEffect(() => {
@@ -60,8 +69,22 @@ function TopRated() {
         <div className={styles.header}>
             <h3>Top Rated Animes</h3>
         </div>
-        <div className={styles.carouselContainer}>
-            <Carousel
+        
+        {loading && (
+            <div className={styles.loadingContainer}>
+                <p>Loading top rated anime...</p>
+            </div>
+        )}
+        
+        {error && (
+            <div className={styles.errorContainer}>
+                <p>{error}</p>
+            </div>
+        )}
+        
+        {!loading && !error && animes.length > 0 && (
+            <div className={styles.carouselContainer}>
+                <Carousel
                 additionalTransfrom={0}
                 arrows
                 autoPlaySpeed={3000}
@@ -100,8 +123,9 @@ function TopRated() {
                             </div>
                         );
                     })}
-            </Carousel>;
-        </div>
+            </Carousel>
+            </div>
+        )}
     </div>
   )
 }

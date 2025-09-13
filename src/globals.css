@@ -14,3 +14,15 @@
     -webkit-box-sizing: border-box; 
      box-sizing: border-box;
 }
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

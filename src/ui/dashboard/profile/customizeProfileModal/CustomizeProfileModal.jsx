@@ -31,7 +31,7 @@ function CustomizeProfileModal({ isOpen, onClose, currentProfilePic, currentBann
 
     const fetchBannerColors = async () => {
         try {
-            const response = await Axios.get("https://anime-archive-revamped.onrender.com/api/getBannerColors")
+            const response = await Axios.get("http://localhost:1337/api/getBannerColors")
             if (response.data.success) {
                 setBannerColors(response.data.colors)
             }
@@ -80,7 +80,7 @@ function CustomizeProfileModal({ isOpen, onClose, currentProfilePic, currentBann
             formData.append('profilePicture', selectedProfilePic)
             formData.append('userId', userId)
 
-            const response = await Axios.post("https://anime-archive-revamped.onrender.com/api/uploadProfilePicture", formData, {
+            const response = await Axios.post("http://localhost:1337/api/uploadProfilePicture", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -125,7 +125,7 @@ function CustomizeProfileModal({ isOpen, onClose, currentProfilePic, currentBann
                 return
             }
 
-            const response = await Axios.post("https://anime-archive-revamped.onrender.com/api/updateBanner", formData, {
+            const response = await Axios.post("http://localhost:1337/api/updateBanner", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
