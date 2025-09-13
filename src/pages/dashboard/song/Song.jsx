@@ -22,6 +22,7 @@ function Song() {
     const [downVotes, setDownVotes] = useState()
     const [upVoteIsTrue, setUpVoteIsTrue] = useState(false)
     const [downVoteIsTrue, setDownVoteIsTrue] = useState(false)
+    const [votingLoading, setVotingLoading] = useState(false)
 
     const handleBackNavigation = () => {
         const fromPage = location.state?.fromPage
@@ -37,50 +38,53 @@ function Song() {
     }
 
     const attemptVote = async (type) => {
-        console.log(type)
-        console.log(downVoteIsTrue)
+        if (votingLoading) return // Prevent multiple clicks
+        
+        try {
+            setVotingLoading(true)
+            console.log("Voting:", type, "Current upVote:", upVoteIsTrue, "Current downVote:", downVoteIsTrue)
 
-
-        if(type == "up" && upVoteIsTrue == true || type == "down" && downVoteIsTrue == true){
-            console.log("here")
-            await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteSongVote", {
-                params: { basename, userId }
-            }).then((response) => {
-                console.log(response)
+            // Case 1: User clicks the same button they already voted for (remove vote)
+            if((type === "up" && upVoteIsTrue) || (type === "down" && downVoteIsTrue)){
+                console.log("Removing existing vote")
+                await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteSongVote", {
+                    params: { basename, userId }
+                })
                 setUpdate(!update)
-            })
-        }
-
-        else if (type == "up" && downVoteIsTrue == true || type == "down" && upVoteIsTrue == true){
-            await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteSongVote", {
-                params: { basename, userId }
-            }).then((response) => {
-                console.log(response)
-            })
-            await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
-                animeId: id,
-                basename: basename,
-                userId: userId,
-                vote: type == "up" ? true : false
-        }).then((response) => {
-            console.log(response)
-            setUpdate(!update)
-        })
-        } else{
-            await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
-                animeId: id,
-                basename: basename,
-                userId: userId,
-                vote: type == "up" ? true : false
-            }).then((response) => {
-                console.log(response)
+            }
+            // Case 2: User changes their vote (down to up, or up to down)
+            else if((type === "up" && downVoteIsTrue) || (type === "down" && upVoteIsTrue)){
+                console.log("Changing vote from", downVoteIsTrue ? "down" : "up", "to", type)
+                // First delete the existing vote
+                await Axios.delete("https://anime-archive-revamped.onrender.com/api/deleteSongVote", {
+                    params: { basename, userId }
+                })
+                // Then add the new vote
+                await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
+                    animeId: id,
+                    basename: basename,
+                    userId: userId,
+                    vote: type === "up"
+                })
                 setUpdate(!update)
-            })
+            }
+            // Case 3: User votes for the first time
+            else {
+                console.log("Adding new vote:", type)
+                await Axios.post("https://anime-archive-revamped.onrender.com/api/addSongVote", {
+                    animeId: id,
+                    basename: basename,
+                    userId: userId,
+                    vote: type === "up"
+                })
+                setUpdate(!update)
+            }
+        } catch (error) {
+            console.error("Error voting:", error)
+            // You could add a toast notification here to show the error to the user
+        } finally {
+            setVotingLoading(false)
         }
-
-
-
-
     }
 
     useEffect(() => {
@@ -210,15 +214,17 @@ function Song() {
                 </div>
                 <div className={styles.votingButtons}>
                     <button 
-                        className={`${styles.voteButton} ${upVoteIsTrue ? styles.voteButtonActive : ''}`}
+                        className={`${styles.voteButton} ${upVoteIsTrue ? styles.voteButtonActive : ''} ${votingLoading ? styles.voteButtonDisabled : ''}`}
                         onClick={() => attemptVote("up")}
+                        disabled={votingLoading}
                     >
                         <MdThumbUp size={20} />
                         <span>{upVotes || 0}</span>
                     </button>
                     <button 
-                        className={`${styles.voteButton} ${downVoteIsTrue ? styles.voteButtonActive : ''}`}
+                        className={`${styles.voteButton} ${downVoteIsTrue ? styles.voteButtonActive : ''} ${votingLoading ? styles.voteButtonDisabled : ''}`}
                         onClick={() => attemptVote("down")}
+                        disabled={votingLoading}
                     >
                         <MdThumbDown size={20} />
                         <span>{downVotes || 0}</span>
