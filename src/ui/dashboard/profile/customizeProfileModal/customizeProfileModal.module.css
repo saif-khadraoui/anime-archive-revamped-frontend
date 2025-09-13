@@ -1,0 +1,434 @@
+/* Modal Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Modal Container */
+.modal {
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 24px;
+}
+
+.headerContent h2 {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.headerContent p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin: 0;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    padding: 0 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 24px;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tabActive {
+    color: #667eea !important;
+    border-bottom-color: #667eea !important;
+    background: rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Content */
+.content {
+    padding: 0 24px 24px 24px;
+}
+
+/* Profile Picture Section */
+.profilePictureSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.currentProfilePic h3,
+.uploadSection h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+}
+
+.profilePicPreview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.previewImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fileUpload {
+    margin-bottom: 12px;
+}
+
+.fileInput {
+    display: none;
+}
+
+.fileLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 8px;
+    color: #667eea;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.fileLabel:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+    border-color: rgba(102, 126, 234, 0.5);
+    transform: translateY(-1px);
+}
+
+.fileInfo {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin: 0;
+}
+
+/* Banner Section */
+.bannerSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.bannerPreview h3 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+}
+
+.bannerPreviewArea {
+    width: 100%;
+    height: 120px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bannerOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.bannerTypeSelector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.typeButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.typeButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.typeButtonActive {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-color: #667eea !important;
+    color: white !important;
+}
+
+.colorSelector h4,
+.imageUpload h4 {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.colorGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 12px;
+    max-width: 400px;
+}
+
+.colorOption {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.colorOption:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.colorCheck {
+    color: white;
+    font-size: 16px;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.imagePreview {
+    margin-top: 12px;
+}
+
+.imagePreview img {
+    width: 100%;
+    max-width: 300px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Save Button */
+.saveButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.saveButton:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.saveButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Messages */
+.errorMessage {
+    background: rgba(255, 100, 100, 0.1);
+    border: 1px solid rgba(255, 100, 100, 0.3);
+    border-radius: 8px;
+    color: #ff6b6b;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+.successMessage {
+    background: rgba(100, 255, 100, 0.1);
+    border: 1px solid rgba(100, 255, 100, 0.3);
+    border-radius: 8px;
+    color: #6bff6b;
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .overlay {
+        padding: 16px;
+    }
+    
+    .modal {
+        max-width: 100%;
+    }
+    
+    .header {
+        padding: 20px 20px 0 20px;
+    }
+    
+    .content {
+        padding: 0 20px 20px 20px;
+    }
+    
+    .tabs {
+        padding: 0 20px;
+    }
+    
+    .headerContent h2 {
+        font-size: 20px;
+    }
+    
+    .colorGrid {
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 8px;
+    }
+    
+    .colorOption {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .bannerTypeSelector {
+        flex-direction: column;
+    }
+    
+    .typeButton {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .overlay {
+        padding: 12px;
+    }
+    
+    .header {
+        padding: 16px 16px 0 16px;
+    }
+    
+    .content {
+        padding: 0 16px 16px 16px;
+    }
+    
+    .tabs {
+        padding: 0 16px;
+    }
+    
+    .previewImage {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .bannerPreviewArea {
+        height: 100px;
+    }
+    
+    .colorGrid {
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    }
+    
+    .colorOption {
+        width: 40px;
+        height: 40px;
+    }
+}

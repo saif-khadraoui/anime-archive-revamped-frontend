@@ -21,12 +21,14 @@ import {
 } from "react-icons/fa"
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md"
 import SyncLoader from "react-spinners/SyncLoader"
+import CustomizeProfileModal from '../../../ui/dashboard/profile/customizeProfileModal/CustomizeProfileModal'
 
 function Profile() {
   const { username, email, profilePic } = useContext(UserContext)
   const navigate = useNavigate()
   const [isEditing, setIsEditing] = useState(false)
   const [showCustomization, setShowCustomization] = useState(false)
+  const [showCustomizeModal, setShowCustomizeModal] = useState(false)
   const [loading, setLoading] = useState(true)
   const [userDetails, setUserDetails] = useState(null)
   const [userStats, setUserStats] = useState(null)
@@ -103,55 +105,63 @@ function Profile() {
     setShowCustomization(!showCustomization)
   }
 
-  // Fetch user details and statistics from API
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userId = localStorage.getItem("userId")
-      if (userId) {
-        try {
-          setLoading(true)
-          
-        // Fetch user details, statistics, and favorites in parallel
-        const [userDetailsResponse, userStatsResponse, favoritesResponse] = await Promise.all([
-          Axios.get("https://anime-archive-revamped.onrender.com/api/getUserDetails", {
-            params: { userId }
-          }),
-          Axios.get("https://anime-archive-revamped.onrender.com/api/getUserStats", {
-            params: { userId }
-          }),
-          Axios.get("https://anime-archive-revamped.onrender.com/api/getFavorites", {
-            params: { userId }
-          })
-        ])
+
+  const fetchUserData = async () => {
+    const userId = localStorage.getItem("userId")
+    if (userId) {
+      try {
+        setLoading(true)
         
-        setUserDetails(userDetailsResponse.data)
-        setUserStats(userStatsResponse.data)
-        console.log("user profile fetched:", userDetailsResponse.data)
-        
-        if (favoritesResponse.data.success) {
-          setFavoriteAnime(favoritesResponse.data.favorites)
-        }
-        
-        // Update userProfile with real data from API
-        setUserProfile(prev => ({
-          ...prev,
-          bio: userDetailsResponse.data.bio || "",
-          location: userDetailsResponse.data.location || "",
-          joinDate: userDetailsResponse.data.joinDate ? 
-            new Date(userDetailsResponse.data.joinDate).toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long' 
-            }) : "Recently"
-        }))
-        } catch (error) {
-          console.error("Error fetching user data:", error)
-        } finally {
-          setLoading(false)
-        }
-      } else {
+      // Fetch user details, statistics, and favorites in parallel
+      const [userDetailsResponse, userStatsResponse, favoritesResponse] = await Promise.all([
+        Axios.get("https://anime-archive-revamped.onrender.com/api/getUserDetails", {
+          params: { userId }
+        }),
+        Axios.get("https://anime-archive-revamped.onrender.com/api/getUserStats", {
+          params: { userId }
+        }),
+        Axios.get("https://anime-archive-revamped.onrender.com/api/getFavorites", {
+          params: { userId }
+        })
+      ])
+      
+      setUserDetails(userDetailsResponse.data)
+      setUserStats(userStatsResponse.data)
+      console.log("user profile fetched:", userDetailsResponse.data)
+      
+      if (favoritesResponse.data.success) {
+        setFavoriteAnime(favoritesResponse.data.favorites)
+      }
+      
+      // Update userProfile with real data from API
+      setUserProfile(prev => ({
+        ...prev,
+        bio: userDetailsResponse.data.bio || "",
+        location: userDetailsResponse.data.location || "",
+        joinDate: userDetailsResponse.data.joinDate ? 
+          new Date(userDetailsResponse.data.joinDate).toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long' 
+          }) : "Recently"
+      }))
+      } catch (error) {
+        console.error("Error fetching user data:", error)
+      } finally {
         setLoading(false)
       }
+    } else {
+      setLoading(false)
     }
+  }
+
+  const handleProfileUpdated = () => {
+    // Refresh user details to get updated profile picture and banner
+    fetchUserData()
+  }
+
+  // Fetch user details and statistics from API
+  useEffect(() => {
+
 
     fetchUserData()
   }, [])
@@ -173,7 +183,12 @@ function Profile() {
       
       {/* Profile Header */}
       <div className={styles.profileHeader}>
-        <div className={styles.coverPhoto}>
+        <div 
+          className={styles.coverPhoto}
+          style={{ 
+            background: userDetails?.banner || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+          }}
+        >
           <div className={styles.coverOverlay}>
             <div className={styles.coverOverlayContent}>
               <div className={styles.coverUserDetails}>
@@ -196,7 +211,7 @@ function Profile() {
                 <FaEdit size={16} />
                 {isEditing ? 'Cancel' : 'Edit Profile'}
               </button>
-              <button className={styles.customizeButton} onClick={handleCustomization}>
+              <button className={styles.customizeButton} onClick={() => setShowCustomizeModal(true)}>
                 <FaPalette size={16} />
                 Customize
               </button>
@@ -440,6 +455,17 @@ function Profile() {
             </div>
           </div>
         </div>
+      )}
+      
+      {/* Customize Profile Modal */}
+      {showCustomizeModal && (
+        <CustomizeProfileModal
+          isOpen={showCustomizeModal}
+          onClose={() => setShowCustomizeModal(false)}
+          currentProfilePic={userDetails?.profilePic || profilePic}
+          currentBanner={userDetails?.banner}
+          onProfileUpdated={handleProfileUpdated}
+        />
       )}
     </div>
   )
