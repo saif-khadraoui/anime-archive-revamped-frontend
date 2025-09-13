@@ -292,18 +292,8 @@ function Profile() {
               <FaPlay size={24} />
             </div>
             <div className={styles.statInfo}>
-              <div className={styles.statNumber}>{userStats?.animeInLists || 0}</div>
-              <div className={styles.statLabel}>Anime in Lists</div>
-            </div>
-          </div>
-          
-          <div className={styles.statCard}>
-            <div className={styles.statIcon}>
-              <FaBookmark size={24} />
-            </div>
-            <div className={styles.statInfo}>
-              <div className={styles.statNumber}>{userStats?.mangaInLists || 0}</div>
-              <div className={styles.statLabel}>Manga in Lists</div>
+              <div className={styles.statNumber}>{userStats?.totalItemsInLists || 0}</div>
+              <div className={styles.statLabel}>Items in Lists</div>
             </div>
           </div>
           
