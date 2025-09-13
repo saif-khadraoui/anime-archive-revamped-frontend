@@ -37,6 +37,13 @@ function Anime() {
     const userId = localStorage.getItem("userId")
     const [modal, setModal] = useState(false)
     const [reviews, setReviews] = useState([])
+    const [reviewsPagination, setReviewsPagination] = useState({
+        currentPage: 1,
+        totalPages: 1,
+        totalReviews: 0,
+        hasNextPage: false,
+        hasPrevPage: false
+    })
     const [amount, setAmount] = useState()
     const [recommendations, setRecommendations] = useState()
     const [lists, setLists] = useState([])
@@ -46,6 +53,23 @@ function Anime() {
     const [favoriteLoading, setFavoriteLoading] = useState(false)
 
     const [averageStars, setAverageStars] = useState(0)
+    
+    // Pagination functions
+    const handlePageChange = (newPage) => {
+        fetchReviews(newPage)
+    }
+
+    const handleNextPage = () => {
+        if (reviewsPagination.hasNextPage) {
+            handlePageChange(reviewsPagination.currentPage + 1)
+        }
+    }
+
+    const handlePrevPage = () => {
+        if (reviewsPagination.hasPrevPage) {
+            handlePageChange(reviewsPagination.currentPage - 1)
+        }
+    }
     
     // Favorite functions
     const toggleFavorite = async () => {
@@ -104,6 +128,17 @@ function Anime() {
         })
     }
 
+    const fetchReviews = async (page = 1) => {
+        await Axios.get("https://anime-archive-revamped.onrender.com/api/getReviews", {
+            params: { id, page, limit: 5 }
+        }).then((response) => {
+            // console.log(response)
+            setReviews(response.data.reviews)
+            setReviewsPagination(response.data.pagination)
+            // calculateAverageStars()
+        })
+    }
+
     useEffect(() => {
         // setAnimeAdded(false)
         const fetchLists = async () => {
@@ -159,21 +194,10 @@ function Anime() {
         // }
 
 
-        const fetchReviews = async () => {
-            await Axios.get("https://anime-archive-revamped.onrender.com/api/getReviews", {
-                params: { id }
-            }).then((response) => {
-                // console.log(response)
-                setReviews(response.data)
-                // calculateAverageStars()
-            })
-        }
-
-
 
         fetchReviews()
         
-    }, [modal, id, animeAdded, reviews])
+    }, [modal, id, animeAdded])
 
     useEffect(() => {
         const checkAdded = async () => {
@@ -402,6 +426,46 @@ function Anime() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Pagination Controls */}
+                        {reviewsPagination.totalPages > 1 && (
+                            <div className={styles.pagination}>
+                                <div className={styles.paginationInfo}>
+                                    <span>
+                                        Showing {((reviewsPagination.currentPage - 1) * 5) + 1} to {Math.min(reviewsPagination.currentPage * 5, reviewsPagination.totalReviews)} of {reviewsPagination.totalReviews} reviews
+                                    </span>
+                                </div>
+                                <div className={styles.paginationControls}>
+                                    <button 
+                                        className={`${styles.paginationButton} ${!reviewsPagination.hasPrevPage ? styles.paginationButtonDisabled : ''}`}
+                                        onClick={handlePrevPage}
+                                        disabled={!reviewsPagination.hasPrevPage}
+                                    >
+                                        Previous
+                                    </button>
+                                    
+                                    <div className={styles.pageNumbers}>
+                                        {Array.from({ length: reviewsPagination.totalPages }, (_, i) => i + 1).map(pageNum => (
+                                            <button
+                                                key={pageNum}
+                                                className={`${styles.pageNumber} ${pageNum === reviewsPagination.currentPage ? styles.pageNumberActive : ''}`}
+                                                onClick={() => handlePageChange(pageNum)}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    
+                                    <button 
+                                        className={`${styles.paginationButton} ${!reviewsPagination.hasNextPage ? styles.paginationButtonDisabled : ''}`}
+                                        onClick={handleNextPage}
+                                        disabled={!reviewsPagination.hasNextPage}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Recommendations */}
