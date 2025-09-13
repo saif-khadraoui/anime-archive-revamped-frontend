@@ -8,10 +8,12 @@ import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import { FaStar, FaPlay, FaBookmark, FaUsers, FaCalendarAlt, FaHeart } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { FaArrowAltCircleDown, FaArrowAltCircleUp, FaComment } from "react-icons/fa";
 import { MdAdd, MdCheck } from "react-icons/md";
 import AddReviewModal from '../../../ui/dashboard/anime/addReviewModal/AddReviewModal'
 import Review from '../../../ui/dashboard/anime/review/Review'
+import CreateThreadModal from '../../../ui/dashboard/anime/createThreadModal/CreateThreadModal'
+import Thread from '../../../ui/dashboard/anime/thread/Thread'
 
 function Anime() {
     const opts = {
@@ -51,6 +53,15 @@ function Anime() {
     const [showButton, setShowButton] = useState(false)
     const [isFavorite, setIsFavorite] = useState(false)
     const [favoriteLoading, setFavoriteLoading] = useState(false)
+    const [threadModal, setThreadModal] = useState(false)
+    const [threads, setThreads] = useState([])
+    const [threadsPagination, setThreadsPagination] = useState({
+        currentPage: 1,
+        totalPages: 1,
+        totalThreads: 0,
+        hasNextPage: false,
+        hasPrevPage: false
+    })
 
     const [averageStars, setAverageStars] = useState(0)
     
@@ -68,6 +79,56 @@ function Anime() {
     const handlePrevPage = () => {
         if (reviewsPagination.hasPrevPage) {
             handlePageChange(reviewsPagination.currentPage - 1)
+        }
+    }
+
+    // Thread functions
+    const fetchThreads = async (page = 1) => {
+        try {
+            const response = await Axios.get("https://anime-archive-revamped.onrender.com/api/getThreads", {
+                params: { animeId: id, page, limit: 10 }
+            })
+            setThreads(response.data.threads)
+            setThreadsPagination(response.data.pagination)
+        } catch (error) {
+            console.error("Error fetching threads:", error)
+        }
+    }
+
+    const handleThreadPageChange = (newPage) => {
+        fetchThreads(newPage)
+    }
+
+    const handleThreadNextPage = () => {
+        if (threadsPagination.hasNextPage) {
+            handleThreadPageChange(threadsPagination.currentPage + 1)
+        }
+    }
+
+    const handleThreadPrevPage = () => {
+        if (threadsPagination.hasPrevPage) {
+            handleThreadPageChange(threadsPagination.currentPage - 1)
+        }
+    }
+
+    const handleThreadCreated = () => {
+        fetchThreads(1) // Refresh threads on first page
+    }
+
+    const handleReplyAdded = (threadId) => {
+        // Refresh the specific thread that had a reply added
+        if (threadId) {
+            // Find and update the specific thread in the threads array
+            setThreads(prevThreads => 
+                prevThreads.map(thread => 
+                    thread._id === threadId 
+                        ? { ...thread, Replies: [...thread.Replies], replyPagination: { ...thread.replyPagination, totalReplies: thread.replyPagination.totalReplies + 1 } }
+                        : thread
+                )
+            )
+        } else {
+            // Fallback: refresh all threads if no specific thread ID provided
+            fetchThreads(threadsPagination.currentPage)
         }
     }
     
@@ -196,6 +257,7 @@ function Anime() {
 
 
         fetchReviews()
+        fetchThreads()
         
     }, [modal, id, animeAdded])
 
@@ -468,6 +530,81 @@ function Anime() {
                         )}
                     </div>
 
+                    {/* Threads Section */}
+                    <div className={styles.threads}>
+                        <div className={styles.threadsHeader}>
+                            <div className={styles.threadsHeaderContent}>
+                                <h3>Community Discussions</h3>
+                                <p>Join the conversation about this {type}</p>
+                            </div>
+                            {userId && (
+                                <button className={styles.createThreadButton} onClick={() => setThreadModal(true)}>
+                                    <FaComment size={16} />
+                                    Start Discussion
+                                </button>
+                            )}
+                        </div>
+                        
+                        <div className={styles.threadsList}>
+                            {threads.length > 0 ? (
+                                threads.map((thread) => (
+                                    <Thread 
+                                        key={thread._id} 
+                                        thread={thread} 
+                                        userId={userId}
+                                        onReplyAdded={handleReplyAdded}
+                                    />
+                                ))
+                            ) : (
+                                <div className={styles.noThreads}>
+                                    <FaComment size={48} />
+                                    <h4>No discussions yet</h4>
+                                    <p>Be the first to start a conversation about this {type}</p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Thread Pagination Controls */}
+                        {threadsPagination.totalPages > 1 && (
+                            <div className={styles.pagination}>
+                                <div className={styles.paginationInfo}>
+                                    <span>
+                                        Showing {((threadsPagination.currentPage - 1) * 10) + 1} to {Math.min(threadsPagination.currentPage * 10, threadsPagination.totalThreads)} of {threadsPagination.totalThreads} discussions
+                                    </span>
+                                </div>
+                                <div className={styles.paginationControls}>
+                                    <button 
+                                        className={`${styles.paginationButton} ${!threadsPagination.hasPrevPage ? styles.paginationButtonDisabled : ''}`}
+                                        onClick={handleThreadPrevPage}
+                                        disabled={!threadsPagination.hasPrevPage}
+                                    >
+                                        Previous
+                                    </button>
+                                    
+                                    <div className={styles.pageNumbers}>
+                                        {Array.from({ length: threadsPagination.totalPages }, (_, i) => i + 1).map(pageNum => (
+                                            <button
+                                                key={pageNum}
+                                                className={`${styles.pageNumber} ${pageNum === threadsPagination.currentPage ? styles.pageNumberActive : ''}`}
+                                                onClick={() => handleThreadPageChange(pageNum)}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    
+                                    <button 
+                                        className={`${styles.paginationButton} ${!threadsPagination.hasNextPage ? styles.paginationButtonDisabled : ''}`}
+                                        onClick={handleThreadNextPage}
+                                        disabled={!threadsPagination.hasNextPage}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     {/* Recommendations */}
                     <div className={styles.recommendations}>
                         <h3>Similar {type === 'anime' ? 'Anime' : 'Manga'}</h3>
@@ -505,6 +642,7 @@ function Anime() {
         )}
         
         {modal && <AddReviewModal setModal={setModal} animeId={id}/>}
+        {threadModal && <CreateThreadModal isOpen={threadModal} onClose={() => setThreadModal(false)} animeId={id} onThreadCreated={handleThreadCreated}/>}
     </div>
   )
 }
