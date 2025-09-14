@@ -145,7 +145,7 @@ function Sidebar() {
   return (
     <>
       <div className={styles.container}>
-          <div className={styles.logo}><span className={styles.logoSpan}>AA </span> Anime Archive</div>
+          <div className={styles.logo}><span className={styles.logoSpan}>AA </span> Anime Archived</div>
           <ul className={styles.list}>
             {userId ? (
               <>
